@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from plots.views import index
 
 urlpatterns = [
-    url(r'^', include('user_auth.urls', namespace="user_auth")),
-    url(r'^admin/', admin.site.urls),
+    url(r'^dev-admin/', admin.site.urls),
+    url(r'^auth/', include('user_auth.urls', namespace="user_auth")),
+    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^$', index, name="index"),
 ]

@@ -4,8 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from .models import User
 
-
 class UserCreationForm(forms.ModelForm):
+
     """
     A form that creates a user, with no privileges, from the given username and
     password.

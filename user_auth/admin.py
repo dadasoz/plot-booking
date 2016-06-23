@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import User
+from .models import User, UserCategory
 
 csrf_protect_m = method_decorator(csrf_protect)
 sensitive_post_parameters_m = method_decorator(sensitive_post_parameters())
@@ -32,7 +32,7 @@ class UserAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('full_name', 'short_name', 'email')}),
-        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_category',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
     )
@@ -45,7 +45,7 @@ class UserAdmin(admin.ModelAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
     change_password_form = AdminPasswordChangeForm
-    list_display = ('username', 'email', 'full_name', 'short_name', 'is_staff')
+    list_display = ('username', 'email', 'full_name', 'user_category' , 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     search_fields = ('username', 'full_name', 'short_name', 'email')
     ordering = ('username',)
@@ -168,4 +168,10 @@ class UserAdmin(admin.ModelAdmin):
                                                    post_url_continue)
 
 
+class UserCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+
+
 admin.site.register(User, UserAdmin)
+
+admin.site.register(UserCategory, UserCategoryAdmin)

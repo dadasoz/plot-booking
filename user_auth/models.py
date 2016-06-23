@@ -20,6 +20,11 @@ class UserCategory(models.Model):
 
     description = models.CharField(max_length=254, blank=True)
 
+    slug = models.CharField(max_length=50, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -49,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                                 'active. Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    user_category = models.ForeignKey(UserCategory)
+    user_category = models.ForeignKey(UserCategory, null=True)
 
     objects = UserManager()
 
