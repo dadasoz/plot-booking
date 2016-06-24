@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^frontend/', include('frontend.urls', namespace="frontend")),
     url(r'^backend/', include('backend.urls', namespace="backend")),
+    url(r'^api/projects/', include('projects_api.urls', namespace="projects_api")),
 ]
 
 

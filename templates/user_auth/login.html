@@ -109,7 +109,7 @@
                     success: function (data, text) {
                         expires = get_days_from_seconds(data.expires_in);
                         $.cookie("login_info",JSON.stringify(data),{ expires:expires, path: '/' });
-                        document.location = "/"+data.base_url+"/dashboard/";
+                        document.location = "/"+data.base_url+"/";
                     },
                     error: function (request, status, error) {
                         $(".error-msg").slideDown();

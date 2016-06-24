@@ -37,13 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user_auth',
-    'rest_framework',
-    'rest_framework.authtoken',
+
     'oauth2_provider',
+    'rest_framework',
     'corsheaders',
+
+    'user_auth',
     'frontend',
     'backend',
+    'projects_api',
+    'booking_api',
+    'customer_api',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -141,8 +145,10 @@ AUTH_USER_MODEL = 'user_auth.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'PAGE_SIZE': 10
 }
