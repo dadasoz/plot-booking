@@ -56,6 +56,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     user_category = models.ForeignKey(UserCategory, null=True)
 
+    profile_photo = models.ImageField(upload_to='profiles', null=True)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'username'

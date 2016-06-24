@@ -1,6 +1,9 @@
-from django.shortcuts import get_object_or_404, render_to_response, render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 
 
 def index(request):
-    return render(request, "user_auth/login.html", {})
+    if request.user.is_authenticated():
+        url = "/{0}/".format(request.user.user_category.slug)
+        return HttpResponseRedirect(url)
+    else:
+        return HttpResponseRedirect("/auth/login/")

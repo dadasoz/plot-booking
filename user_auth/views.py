@@ -1,14 +1,17 @@
 import json
+import datetime
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render_to_response, HttpResponse,render
+from django.conf import settings
+from django.shortcuts import HttpResponse, render, redirect
 from user_auth.models import User
 
-from .helpers import LoginHelper
-from plots.exceptions import AuthenticationFailed
-
 from django.views.generic import View
-from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import authenticate, login, logout
+
+from oauthlib.common import generate_token
+from oauth2_provider.models import Application, AccessToken
 
 
 class LoginView(View):
@@ -22,14 +25,35 @@ class LoginView(View):
 
         password = post_data.get("password", None)
 
-        helper = LoginHelper()
-        data = helper.generate_oauth_token(request, username, password)
+        user = authenticate(username=username, password=password)
 
-        if data.status_code == 200:
-            content = json.loads(data.content)
-            content.update(self.get_userinfo(user))          
-            return HttpResponse(json.dumps(content),
-                                content_type="application/json")
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                app = Application.objects.get(name="WebAPP")
+                try:
+                    old = AccessToken.objects.get(user=user, application=app)
+                except:
+                    pass
+                else:
+                    old.delete()
+
+                token = generate_token()
+
+                token = AccessToken.objects.get_or_create(user=user,
+                                                          application=app,
+                                                          expires=datetime.datetime.now() +
+                                                          datetime.timedelta(
+                                                              days=30),
+                                                          token=token)[0]
+                token_details = {"access_token": token.token, "token_type":
+                                 "Bearer", "expires_in": 30, "scope": "read write"}
+                content = self.get_userinfo(user)
+                content.update(token_details)
+                return HttpResponse(json.dumps(content),
+                                    content_type="application/json")
+            else:
+                HttpResponse(status=401)
         else:
             return HttpResponse(status=401)
 
@@ -56,9 +80,18 @@ class LoginView(View):
             "id": user.id,
             "user_category": user.user_category.name,
             "base_url": user.user_category.slug,
+            "profile_photo": "{0}{1}".format(settings.MEDIA_URL, user.profile_photo),
         }
         return user_data
+
+    def token_request(self, user):
+        return Token.objects.create(user=user)
 
 
 def login_view(request):
     return render(request, "user_auth/login.html", {})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('user_auth:login')

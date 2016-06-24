@@ -16,10 +16,19 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from plots.views import index
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+    url(r'^$', index, name="index"),
     url(r'^dev-admin/', admin.site.urls),
     url(r'^auth/', include('user_auth.urls', namespace="user_auth")),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    url(r'^$', index, name="index"),
+    url(r'^frontend/', include('frontend.urls', namespace="frontend")),
+    url(r'^backend/', include('backend.urls', namespace="backend")),
 ]
+
+
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

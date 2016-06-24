@@ -108,8 +108,7 @@
                     },
                     success: function (data, text) {
                         expires = get_days_from_seconds(data.expires_in);
-                        console.log(expires);
-                        $.cookie("login-info",JSON.stringify(data),{ expires:expires, path: '/' });
+                        $.cookie("login_info",JSON.stringify(data),{ expires:expires, path: '/' });
                         document.location = "/"+data.base_url+"/dashboard/";
                     },
                     error: function (request, status, error) {

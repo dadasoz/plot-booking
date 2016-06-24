@@ -1,0 +1,36 @@
+<!-- begin #sidebar -->
+<div id="sidebar" class="sidebar">
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%">
+        <!-- begin sidebar user -->
+        <ul class="nav">
+            <li class="nav-profile">
+                <div class="image">
+                    <a href="javascript:;"><img src="{{MEDIA_URL}}{{request.user.profile_photo}}" alt="" /></a>
+                </div>
+                <div class="info">
+                    {{request.user.full_name}}
+                    <small>{{request.user.user_category.name}}</small>
+                </div>
+            </li>
+        </ul>
+        <!-- end sidebar user -->
+        <!-- begin sidebar nav -->
+        <ul class="nav">
+            <li class="nav-header">Navigation</li>
+            <li><a href="/{{request.user.user_category.slug}}/dashboard/"><i class="fa fa-calendar"></i> <span>Dashboard</span></a></li>
+            <li><a href="/{{request.user.user_category.slug}}/projects/"><i class="fa fa-calendar"></i> <span>Projects</span></a></li>
+            <li><a href="/{{request.user.user_category.slug}}/plots/"><i class="fa fa-calendar"></i> <span>Plots</span></a></li>
+            <li><a href="/{{request.user.user_category.slug}}/accounts/"><i class="fa fa-calendar"></i> <span>Accounts</span></a></li>
+            <li><a href="/{{request.user.user_category.slug}}/reports/"><i class="fa fa-calendar"></i> <span>Reports</span></a></li>
+
+            <!-- begin sidebar minify button -->
+            <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+            <!-- end sidebar minify button -->
+        </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar scrollbar -->
+</div>
+<div class="sidebar-bg"></div>
+<!-- end #sidebar -->

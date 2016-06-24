@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_auth',
     'rest_framework',
+    'rest_framework.authtoken',
     'oauth2_provider',
     'corsheaders',
     'frontend',
@@ -70,6 +71,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.core.context_processors.media",
+                "django.core.context_processors.static",
             ],
         },
     },
@@ -152,3 +155,6 @@ CLIENT_ID = "3lyHq54PFy52dQL9455UVmSuAecL6Dl2yU3iE9jG"
 CLIENT_SECRET = "WAWzw1nTFNPTGTWF6l8bxefPVQQU0S1Na1TWqyhYruwooe9ufGnpWLLsPPgs4lU8TDqYo2VAVbZlXKEdsz5Mj7TMhX3yize0pAtJxCV3kDzFHInRQkpNEwjid26h66jf"
 
 SERVER_PROTOCOLS = "http://"
+
+MEDIA_ROOT = 'media'
+MEDIA_URL = '/media/'
