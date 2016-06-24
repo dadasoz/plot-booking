@@ -1,19 +1,19 @@
 import json
 
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render_to_response, HttpResponse
+from django.shortcuts import render_to_response, HttpResponse,render
 from user_auth.models import User
 
 from .helpers import LoginHelper
 from plots.exceptions import AuthenticationFailed
 
 from django.views.generic import View
+from django.contrib.auth import authenticate
 
 
 class LoginView(View):
 
     def post(self, request):
-
         post_data = request.POST
         try:
             username, user = self.clean_username(post_data.get("email", None))
@@ -27,7 +27,7 @@ class LoginView(View):
 
         if data.status_code == 200:
             content = json.loads(data.content)
-            content.update(self.get_userinfo(user))
+            content.update(self.get_userinfo(user))          
             return HttpResponse(json.dumps(content),
                                 content_type="application/json")
         else:
@@ -61,4 +61,4 @@ class LoginView(View):
 
 
 def login_view(request):
-    return render_to_response("user_auth/login.html", {})
+    return render(request, "user_auth/login.html", {})
