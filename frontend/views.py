@@ -9,3 +9,9 @@ def dashboard_view(request):
 
 def projects_view(request):
     return render(request, "frontend/projects.html", {})
+
+def plots_view(request):
+    return render(request, "frontend/plots.html", {})
+
+def customers_view(request):
+    return render(request, "frontend/customers/index.html", {})

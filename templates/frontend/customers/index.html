@@ -1,0 +1,364 @@
+{% extends "frontend_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Customers{% endblock %}
+
+{% block page_css %}
+    <!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+    <link href="{% static "assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css"%}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/gritter/css/jquery.gritter.css"%}" rel="stylesheet" />
+
+    <link href="{% static "assets/plugins/DataTables/css/data-table.css"%}" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+
+{% endblock %}
+
+{% block sidebar %}
+  {% include "common/sidebar.html" with menu="customers" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Home</a></li>
+    <li class="active">Customers</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Customers</h1>
+<!-- end page-header -->
+{% endblock %}
+
+{% block contents %}
+    <!-- begin row -->
+    <div class="row">
+       <div class="col-md-12 ui-sortable">
+            <!-- begin panel -->
+            <div class="panel panel-inverse" data-sortable-id="table-basic-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a class="accordion-toggle accordion-toggle-styled" href="javascript:;" id="btn-add-customer">
+                              <button type="button" class="btn btn-xs btn-inverse"><i class="fa fa-plus"></i> New Customer</button>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <h4 class="panel-title">All Customers</h4>
+                </div>
+                <div class="panel-body">
+                    <table id="plots-data" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Alt Contact</th>
+                                <th>Address</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end panel -->
+            <div class="modal" id="customer-modal">
+                <div class="modal-dialog" style="width: 85%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title edit-label">Edit Customer Details</h4>
+                            <h4 class="modal-title add-label">Add New Customer</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" id="customer-form">
+                            <fieldset>
+                              <input id="pk" name="pk" type="hidden" value="">
+                              <!-- Start col md 12 -->
+                              <div class="col-md-12">
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="first_name">First Name</label>  
+                                    <div class="col-md-8">
+                                    <input id="first_name" name="first_name" placeholder="First Name" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="middle_name">Middle Name</label>  
+                                    <div class="col-md-8">
+                                    <input id="middle_name" name="middle_name" placeholder="Middle Name" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="last_name">Last Name</label>  
+                                    <div class="col-md-8">
+                                    <input id="last_name" name="last_name" placeholder="Last Name" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="occupation">Occupation</label>  
+                                    <div class="col-md-8">
+                                    <input id="occupation" name="occupation" placeholder="Occupation" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="dob">Date of birth</label>  
+                                    <div class="col-md-8">
+                                    <input id="dob" name="dob" placeholder="Date of birth" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="age">Age</label>  
+                                    <div class="col-md-8">
+                                    <input id="age" name="age" placeholder="Age" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="marriage_anniversary">Marriage anniversary</label>  
+                                    <div class="col-md-8">
+                                    <input id="marriage_anniversary" name="marriage_anniversary" placeholder="Marriage Anniversary" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="agriculture_status">Agriculture status</label>  
+                                    <div class="col-md-8">
+                                    <input id="agriculture_status" name="agriculture_status" placeholder="Agriculture status" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="purpose_of_buying">Purpose of buying</label>  
+                                    <div class="col-md-8">
+                                    <input id="purpose_of_buying" name="purpose_of_buying" placeholder="Purpose of buying" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+                              </div>
+                              <!-- End col md 12 -->
+                              <!-- Start col md 12 -->
+                              <div class="col-md-12">
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="email">Email</label>  
+                                    <div class="col-md-8">
+                                    <input id="email" name="email" placeholder="Email" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="mobile">Mobile</label>  
+                                    <div class="col-md-8">
+                                    <input id="mobile" name="mobile" placeholder="Mobile" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="alternet_mobile">Alternet Contact</label>  
+                                    <div class="col-md-8">
+                                    <input id="alternet_mobile" name="alternet_mobile" placeholder="Alternet Contact" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="address1">Permenanat Address</label>  
+                                    <div class="col-md-8">
+                                    <textarea id="address1" name="address1" placeholder="Permenanat Address" class="form-control input-md"></textarea> 
+                                    </div>
+                                  </div>
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="address2">Current Address</label>  
+                                    <div class="col-md-8">
+                                    <textarea id="address2" name="address2" placeholder="Permenanat Address" class="form-control input-md"></textarea> 
+                                    </div>
+                                  </div>                                  
+                                </div>
+                                <!-- End col md 4 -->
+
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="pin_code">Pin Code</label>
+                                    <div class="col-md-8">
+                                    <input id="pin_code" name="pin_code" placeholder="Pin Code" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="photo">Photo</label>  
+                                    <div class="col-md-8">
+                                    <input id="photo" name="photo" placeholder="Agriculture status" class="form-control file-md" required="" type="file">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+                              </div>
+                              <!-- End col md 12 -->
+
+                              <!-- Start col md 12 -->
+                              <div class="col-md-12">
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_name">Nominee Name</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_name" name="nominee_name" placeholder="First Name" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_address">Nominee Address</label>  
+                                    <div class="col-md-8">
+                                    <textarea id="nominee_address" name="nominee_address" placeholder="Nominee Address" class="form-control input-md" required=""></textarea>
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_email">Nominee Email</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_email" name="nominee_email" placeholder="Nominee Email" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_mobile">Nominee Mobile</label>
+                                    <div class="col-md-8">
+                                    <input id="nominee_mobile" name="nominee_mobile" placeholder="Nominee Mobile" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_alternet_mobile">Nominee Aalternet Mobile</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_alternet_mobile" name="nominee_alternet_mobile" placeholder="Nominee Aalternet Mobile" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_photo">Nominee Photo</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_photo" name="nominee_photo" placeholder="Age" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+                                </div>
+                                <!-- End col md 4 -->
+
+                                <!-- Start col md 4 -->
+                                <div class="col-md-4">
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_dob">Nominee date of birth</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_dob" name="nominee_dob" placeholder="Nominee date of birth" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_age">Nominee Age</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_age" name="nominee_age" placeholder="Nominee Age" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="nominee_occupation">Nominee Occupation</label>  
+                                    <div class="col-md-8">
+                                    <input id="nominee_occupation" name="nominee_occupation" placeholder="Nominee Occupation" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                  <!-- Text input-->
+                                  <div class="form-group">
+                                    <label class="col-md-4 control-label" for="relation">Relation with buyer</label> 
+                                    <div class="col-md-8">
+                                    <input id="relation" name="relation" placeholder="Nominee Occupation" class="form-control input-md" required="" type="text">
+                                    </div>
+                                  </div>
+
+                                </div>
+                                <!-- End col md 4 -->
+                              </div>
+                              <!-- End col md 12 -->
+
+                            </fieldset>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a href="javascript:;" class="btn btn-sm btn-success edit-label" id="update-plot" data-pk="">Update</a>
+                            <a href="javascript:;" class="btn btn-sm btn-success add-label" id="add-plot" data-pk="">Save</a>
+                            <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #modal-message -->
+        </div>
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+
+{% block page_js %}
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="{% static "assets/plugins/gritter/js/jquery.gritter.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/jquery.dataTables.js"%}"></script>
+    <script src="{% static "assets/js/apps.js"%}"></script>
+    <script src="{% static "assets/js/customers/script.js"%}"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+{% endblock %}

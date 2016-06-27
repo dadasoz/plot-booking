@@ -14,38 +14,72 @@ $.loginPost = function(url, data, callback) {
     });
 };
 
-$.postJSON = function(url, data, callback) {
+$.post = function(url, data, callback) {
     return jQuery.ajax({
         'type': 'POST',
         beforeSend: function (request)
             {
-                request.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                request.setRequestHeader("Authorization", "Bearer "+JSON.parse($.cookie('login_info')).access_token);
             },
         'url': url,
         'contentType': 'application/json',
         'data': JSON.stringify(data),
         'dataType': 'json',
-        'success': callback
+        'complete': callback,
     });
 };
 
-$.getJSON = function(url, data, callback) {
+$.get = function(url, callback) {
     return jQuery.ajax({
-        'type': 'POST',
+        'type': 'GET',
         beforeSend: function (request)
             {
-                request.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                request.setRequestHeader("Authorization", "Bearer "+JSON.parse($.cookie('login_info')).access_token);
             },
         'url': url,
         'contentType': 'application/json',
-        'data': data,
         'dataType': 'json',
-        'success': callback
+        'success': callback,
+        'error':callback,
     });
 };
 
+$.put = function(url, data, callback) {
+    return jQuery.ajax({
+        'type': 'PUT',
+        beforeSend: function (request)
+            {
+                request.setRequestHeader("Authorization", "Bearer "+JSON.parse($.cookie('login_info')).access_token);
+            },
+        'url': url,
+        'contentType': 'application/json',
+        'data': JSON.stringify(data),
+        'dataType': 'json',
+        'success': callback,
+    });
+};
+
+$.delete = function(url, data, callback) {
+    return jQuery.ajax({
+        'type': 'DELETE',
+        beforeSend: function (request)
+            {
+                request.setRequestHeader("Authorization", "Bearer "+JSON.parse($.cookie('login_info')).access_token);
+            },
+        'url': url,
+        'contentType': 'application/json',
+        'data': JSON.stringify(data),
+        'dataType': 'json',
+    });
+};
 
 function get_days_from_seconds(seconds){
     seconds = parseInt(seconds);
     return new Date().getTime() + seconds*1000;
 }
+
+var table;
+
+var destroyTable = function(id) {
+    $(id).DataTable().clear().destroy();
+};

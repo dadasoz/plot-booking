@@ -13,25 +13,40 @@ class Project(models.Model):
     """
     name = models.CharField(max_length=254, blank=False)
 
-    description = models.CharField(max_length=254, blank=True)
+    description = models.TextField(max_length=254, blank=True)
 
-    address = models.TextField(max_length=254, blank=False)
+    address = models.TextField(max_length=254, blank=True)
 
-    area = models.CharField(max_length=254, blank=False)
+    village = models.CharField(max_length=254, blank=True)
+
+    taluka = models.CharField(max_length=254, blank=True)
+
+    district = models.CharField(max_length=254, blank=True)
+
+    state = models.CharField(max_length=254, blank=True)
+
+    area = models.CharField(max_length=254, blank=True)
 
     plot_no = models.CharField(max_length=254, blank=True)
 
     gat_no = models.CharField(max_length=254, blank=True)
 
+    survey_no = models.CharField(max_length=254, blank=True)
+
     is_active = models.BooleanField(default=True)
 
-    created_at = models.DateField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, null=True)
 
     updated_at = AutoDateTimeField(default=timezone.now)
 
-    start_date = models.DateField(default=timezone.now)
+    start_date = models.CharField(blank=True, null=True, max_length=254)
 
-    date_closed = models.DateField(blank=True, null=True)
+    date_closed = models.CharField(blank=True, null=True, max_length=254)
+
+    rate_per_sqft = models.CharField(blank=True, null=True, max_length=254)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Plots(models.Model):
@@ -58,6 +73,15 @@ class Plots(models.Model):
 
     project = models.ForeignKey(Project, related_name="project")
 
-    created_at = models.DateField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now)
 
     updated_at = AutoDateTimeField(default=timezone.now)
+
+    gat_no = models.CharField(max_length=254, blank=True)
+
+    survey_no = models.CharField(max_length=254, blank=True)
+
+    rate_per_sqft = models.CharField(blank=True, null=True, max_length=254)
+
+    def __unicode__(self):
+        return str(self.plot_no)

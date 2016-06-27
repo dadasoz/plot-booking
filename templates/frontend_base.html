@@ -10,7 +10,6 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 
     <!-- ================== BEGIN BASE CSS STYLE ================== -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="{% static "assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css"%}" rel="stylesheet" />
     <link href="{% static "assets/plugins/bootstrap/css/bootstrap.min.css"%}" rel="stylesheet" />
     <link href="{% static "assets/plugins/font-awesome/css/font-awesome.min.css"%}" rel="stylesheet" />
@@ -18,6 +17,7 @@
     <link href="{% static "assets/css/style.min.css"%}" rel="stylesheet" />
     <link href="{% static "assets/css/style-responsive.min.css"%}" rel="stylesheet" />
     <link href="{% static "assets/css/theme/default.css"%}" rel="stylesheet" id="theme" />
+    <link href="{% static "assets/css/custom.css"%}" rel="stylesheet" id="theme" />
     <!-- ================== END BASE CSS STYLE ================== -->
     
 
@@ -48,6 +48,29 @@
 
         </div>
         <!-- end #content -->
+        
+        <!-- #modal-alert -->
+        <div class="modal fade" id="delete-confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Confirmtion</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-danger m-b-0">
+                            <h4><i class="fa fa-info-circle"></i> Do you really want to delete?</h4>
+                            <p>The record will permanantly deleted from database and cannot be retrived!</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                        <a href="javascript:;" class="btn btn-sm btn-danger" id="delete-record" sata-pk="">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #modal-alert -->
 
         <!-- begin scroll to top btn -->
         <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a>
