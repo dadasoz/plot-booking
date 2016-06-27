@@ -9,8 +9,6 @@ from django.utils import timezone
 
 class Booking(models.Model):
 
-    booking_date = models.DateField()
-
     plot_no = models.ForeignKey(Plots, related_name="plots")
 
     booking_date = models.DateField(default=timezone.now)
@@ -22,4 +20,3 @@ class Booking(models.Model):
     is_booking_cancled = models.CharField(max_length=254, blank=True)
 
     customer = models.ForeignKey(Customer, related_name="customer")
-
