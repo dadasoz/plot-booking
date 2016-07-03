@@ -1,4 +1,3 @@
-
 $.loginPost = function(url, data, callback) {
     return jQuery.ajax({
         'type': 'POST',
