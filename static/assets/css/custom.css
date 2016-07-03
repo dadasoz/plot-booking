@@ -1,7 +1,12 @@
 .table-buttons{
-    min-width: 65px;   
+    min-width: 85px;   
 }
 
 .table-buttons a{
     margin-right: 5px;
+}
+
+#cust-table{
+    display: table;
+    width: 100%;
 }

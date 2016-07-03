@@ -59,6 +59,21 @@ $.put = function(url, data, callback) {
     });
 };
 
+$.patch = function(url, data, callback) {
+    return jQuery.ajax({
+        'type': 'PATCH',
+        beforeSend: function (request)
+            {
+                request.setRequestHeader("Authorization", "Bearer "+JSON.parse($.cookie('login_info')).access_token);
+            },
+        'url': url,
+        'contentType': 'application/json',
+        'data': JSON.stringify(data),
+        'dataType': 'json',
+        'success': callback,
+    });
+};
+
 $.delete = function(url, data, callback) {
     return jQuery.ajax({
         'type': 'DELETE',

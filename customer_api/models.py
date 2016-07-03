@@ -36,7 +36,7 @@ class Customer(models.Model):
 
     mobile = models.CharField(max_length=254, blank=True)
 
-    alternet_mobile = models.CharField(max_length=254, blank=True)
+    alternate_mobile = models.CharField(max_length=254, blank=True)
 
     address1 = models.TextField(max_length=254, blank=True)
 
@@ -56,7 +56,7 @@ class Customer(models.Model):
 
     nominee_mobile = models.CharField(max_length=254, blank=True)
 
-    nominee_alternet_mobile = models.CharField(max_length=254, blank=True)
+    nominee_alternate_mobile = models.CharField(max_length=254, blank=True)
 
     nominee_photo = models.ImageField(upload_to='nominee', null=True)
 
@@ -68,7 +68,7 @@ class Customer(models.Model):
 
     relation = models.CharField(max_length=254, blank=True)
 
-    def get_full_name(self):
+    def full_name(self):
         return "{0} {1} {2}".format(self.first_name,self.middle_name,self.last_name)
 
     def __unicode__(self):

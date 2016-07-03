@@ -56,8 +56,10 @@ class ProjectsSerializer(serializers.Serializer):
         instance.gat_no = validated_data.get('gat_no', instance.gat_no)
         instance.start_date = validated_data.get(
             'start_date', instance.start_date)
-        instance.survey_no = validated_data.get('survey_no', instance.survey_no)
-        instance.rate_per_sqft = validated_data.get('rate_per_sqft', instance.rate_per_sqft)
+        instance.survey_no = validated_data.get(
+            'survey_no', instance.survey_no)
+        instance.rate_per_sqft = validated_data.get(
+            'rate_per_sqft', instance.rate_per_sqft)
         instance.taluka = validated_data.get('taluka', instance.taluka)
         instance.district = validated_data.get('district', instance.district)
         instance.state = validated_data.get('state', instance.state)
@@ -95,8 +97,10 @@ class PlotsSerializer(serializers.ModelSerializer):
         instance.width = validated_data.get('width', instance.width)
         instance.breadth = validated_data.get('breadth', instance.breadth)
         instance.area = validated_data.get('area', instance.area)
-        instance.survey_no = validated_data.get('survey_no', instance.survey_no)
-        instance.rate_per_sqft = validated_data.get('rate_per_sqft', instance.rate_per_sqft)
+        instance.survey_no = validated_data.get(
+            'survey_no', instance.survey_no)
+        instance.rate_per_sqft = validated_data.get(
+            'rate_per_sqft', instance.rate_per_sqft)
         instance.save()
         return instance
 
@@ -108,3 +112,11 @@ class ProjectsForPlotsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ('pk', 'project_name')
+
+
+class PlotDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Plots
+        fields = ('pk', 'plot_no', 'is_booked', 'is_saled', 'facing', 'width',
+                  'breadth', 'area', 'created_at', 'basic_cost', 'project', 'rate_per_sqft', 'survey_no')

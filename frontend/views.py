@@ -15,3 +15,6 @@ def plots_view(request):
 
 def customers_view(request):
     return render(request, "frontend/customers/index.html", {})
+
+def bookings_view(request):
+    return render(request, "frontend/bookings/index.html", {})

@@ -2,11 +2,12 @@ from rest_framework.permissions import IsAuthenticated
 from django.http import Http404
 from rest_framework.views import APIView
 
-from .serializers import ProjectsSerializer, PlotsSerializer, ProjectsForPlotsSerializer
+from .serializers import ProjectsSerializer, PlotsSerializer, ProjectsForPlotsSerializer, PlotDetailsSerializer
 from projects_api.models import Project, Plots
 
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
 
 
 class ProjectsList(APIView):
@@ -118,3 +119,19 @@ class PlotDetail(APIView):
         plot = self.get_object(pk)
         plot.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PlotWithProjectDetails(generics.RetrieveAPIView):
+    serializer_class = PlotDetailsSerializer
+
+    def get_object(self, project, plot_no):
+        try:
+            project = Project.objects.get(pk=project)
+            return Plots.objects.get(plot_no=plot_no, project=project)
+        except Plots.DoesNotExist:
+            raise Http404
+
+    def get(self, request, project, plot_no, format=None):
+        plot = self.get_object(project, plot_no)
+        serializer = PlotDetailsSerializer(plot)
+        return Response(serializer.data)
