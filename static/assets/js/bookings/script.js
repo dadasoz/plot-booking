@@ -1,12 +1,17 @@
 $(document).ready(function() {
     loadData();
     loadAllProjects();
+
+    checkQueryParam();
+
+    calculateLoanAmount();
+
     $(document).on('click', '.booking-edit', function() {
         $(".edit-label").show();
         $(".add-label").hide();
         $("#booking-modal").modal("show");
         var id = $(this).attr("data-pk");
-        $.get("/api/bookings" + id + "/", function(data, status) {
+        $.get("/api/booking/" + id + "/", function(data, status) {
                 $("#pk").val(data.id);
                 $("#first_name").val(data.first_name);
                 $("#middle_name").val(data.middle_name);
@@ -39,7 +44,7 @@ $(document).ready(function() {
             return a;
         }, {});
         id = $(this).attr("data-pk");
-        $.patch("/api/bookings/update/" + id + "/", form_data, function(data, status) {
+        $.patch("/api/booking/update/" + id + "/", form_data, function(data, status) {
                 loadData();
                 $("#booking-modal").modal("hide");
             },
@@ -50,12 +55,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#add-booking', function() {
-        var form_data = $("#booking-form").serializeArray().reduce(function(a, x) {
-            a[x.name] = x.value;
-            return a;
-        }, {});
-        id = $(this).attr("data-pk");
-        $.post("/api/bookings/create/", form_data, function(data, textStatus) {
+        form_data = {
+            'plot_no': $("#plot_id").val(),
+            'booking_date': $("#booking_date").val(),
+            'customer': $("#customer_id").val(),
+            'booking_amount': $("#booking_amount").val(),
+        }
+        $.post("/api/booking/create/", form_data, function(data, textStatus) {
             if (data.status == 201) {
                 loadData();
                 $("#booking-modal").modal("hide");
@@ -73,7 +79,7 @@ $(document).ready(function() {
 
     $(document).on('click', '#delete-record', function() {
         id = $(this).attr("data-pk");
-        $.delete("/api/bookings/delete/" + id + "/").done(function(data, textStatus, jqXHR) {
+        $.delete("/api/booking/delete/" + id + "/").done(function(data, textStatus, jqXHR) {
             if (jqXHR.status == 204) {
                 loadData();
                 $("#delete-confirm").modal("hide");
@@ -101,30 +107,14 @@ $(document).ready(function() {
     $(document).on('click', '#select-plot', function() {
         plot_no = $("#plot_no").val();
         project = $("#project option:selected").val();
-        $.get("/api/projects/plots/" + project + "/" + plot_no + "/", function(data, status) {
-            if (status === "success") {
-                $("#basic_cost").val(data.basic_cost);
-                $("#project").val(data.project);
-                $("#facing").val(data.facing);
-                $("#width").val(data.width);
-                $("#breadth").val(data.breadth);
-                $("#area").val(data.area);
-                $("#survey_no").val(data.survey_no);
-                $("#rate_per_sqft").val(data.rate_per_sqft);
-                $("#total_amount").val(data.basic_cost);
-            } else {
-                alert("Not found");
-                $("#plot_no").val("");
-            }
-        })
+        loadPlotDetailsByPlotNo(project, plot_no);
     });
-
 
 
     $(document).on('click', '.customer-view', function() {
         id = $(this).attr("data-pk");
         $("#customer-details-modal").modal("show");
-        $.get("/api/bookings/" + id + "/", function(data, status) {
+        $.get("/api/booking/" + id + "/", function(data, status) {
             $("#lbl-name").text(data.first_name + " " + data.middle_name + " " + data.last_name);
             $("#lbl-occupation").text(data.occupation);
             $("#lbl-dob").text(data.dob);
@@ -142,11 +132,21 @@ $(document).ready(function() {
         });
     });
 
+    $(document).on('click', '#emi', function() {
+        var checkbox = this;
+        if($(checkbox).is(':checked')){
+            $(".emi-div").show();
+            $(".payments-div").show();
+        }else{
+            $(".emi-div").hide();
+            $(".payments-div").hide();
+        }
+    });
 
 });
 
 function loadData() {
-    $.get("/api/bookings/", function(data, status) {
+    $.get("/api/booking/", function(data, status) {
             addData(data);
         },
         function(data, status, st) {
@@ -165,6 +165,28 @@ function loadCustomers() {
     );
 }
 
+
+function loadPlotDetailsByPlotNo(project, plot_no){
+    $.get("/api/projects/plots/" + project + "/" + plot_no + "/", function(data, status) {
+            if (status === "success") {
+                $("#basic_cost").val(data.basic_cost);
+                $("#project").val(data.project).change();
+                $("#facing").val(data.facing);
+                $("#width").val(data.width);
+                $("#breadth").val(data.breadth);
+                $("#area").val(data.area);
+                $("#survey_no").val(data.survey_no);
+                $("#rate_per_sqft").val(data.rate_per_sqft);
+                $("#total_amount").val(data.basic_cost);
+                $("#plot_no").val(plot_no);
+                $("#plot_id").val(data.pk);
+            } else {
+                alert("Not found");
+                $("#plot_no").val("");
+            }
+        })
+}
+
 function loadAllProjects() {
     $.get("/api/projects/for-plots/", function(data, status) {
             for (var count = 0; count < data.length; count++) {
@@ -179,7 +201,6 @@ function loadAllProjects() {
 }
 
 function addData(data) {
-
     destroyTable("#bookings-data");
     table = $('#bookings-data').DataTable({
         responsive: true,
@@ -187,10 +208,10 @@ function addData(data) {
     for (var count = 0; count < data.length; count++) {
         booking = data[count];
         buttons = '<div class="table-buttons">';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-view" data-pk="' + customer.pk + '"><i class="fa fa-eye"></i></a>';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-edit" data-pk="' + customer.pk + '"><i class="fa fa-edit"></i></a>';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-delete" data-pk="' + customer.pk + '"><i class="fa fa-trash"></i></a></div>';
-        table.row.add([customer.full_name, customer.email, customer.mobile, customer.alternate_mobile, customer.address1, buttons]).draw(true);
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-view" data-pk="' + booking.pk + '"><i class="fa fa-eye"></i></a>';
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-edit" data-pk="' + booking.pk + '"><i class="fa fa-edit"></i></a>';
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-delete" data-pk="' + booking.pk + '"><i class="fa fa-trash"></i></a></div>';
+        table.row.add([booking.customer_name, booking.plot_no, booking.basic_amount, booking.booking_amount, booking.customer_email, booking.customer_email, buttons]).draw(true);
     }
 }
 
@@ -210,6 +231,7 @@ function showCustomerList(data) {
 
 function loadCustomerDetails(id) {
     $.get("/api/customers/" + id + "/", function(data, status) {
+        $("#customer_id").val(data.id);
         $("#customer_name").val(data.first_name + " " + data.middle_name + " " + data.last_name);
         $("#occupation").val(data.occupation);
         $("#dob").val(data.dob);
@@ -226,42 +248,89 @@ function loadCustomerDetails(id) {
     });
 }
 
+function checkQueryParam(){
+    if(getQuery("plot_no")){
+        loadPlotDetailsByPlotNo(getQuery("project"), getQuery("plot_no"));
+        $("#booking-modal").modal("show");
+        $(".edit-label").hide();
+        $(".add-label").show();
+    }
+    if(getQuery("customer")){
+        loadCustomerDetails(getQuery("customer"));
+        $("#booking-modal").modal("show");
+        $(".edit-label").hide();
+        $(".add-label").show();
+    }
+}
 
-function calculateEmi(){
-    duration = parseInt($("#payment_duration option:selected").val());
+function getQuery(q) {
+    return (window.location.search.match(new RegExp('[?&]' + q + '=([^&]+)')) || [, null])[1];
+}
 
-    booking_amount = parseInt($("#booking_amount").val());
+$(document).on('click', '#calculate-emi', function() {
+    calculateEMI();
+});
 
-    down_payment = parseInt($("#down_payment").val());
-
-    total_amount = parseInt($("#total_amount").val());
+function calculateLoanAmount(){
+    booking_amount = getValById("booking_amount");
+    down_payment = getValById("down_payment");
+    total_amount = getValById("total_amount");
 
     paid_amount = booking_amount + down_payment;
 
-    remaining_amount = total_amount - paid_amount;
+    loan_amount = total_amount - paid_amount;
 
-    emi_amount = 15000;
+    $("#loan_amount").val(loan_amount);
 
-    emi_remaining_amt = remaining_amount;
+    return loan_amount;
 
-    intrest_rate  = 15.15;
+}
 
-    monthly_intrest_rate = intrest_rate/12;
 
-    while(emi_remaining_amt > 0){
-      
-      monthly_intrest = (emi_remaining_amt*monthly_intrest_rate)/100;
-      total_payable_monthly = 0;
-      if(emi_remaining_amt>emi_amount){
-        emi_remaining_amt = emi_remaining_amt-emi_amount;
-        total_payable_monthly = monthly_intrest+emi_amount;
-      }else{
-        total_payable_monthly = monthly_intrest+emi_remaining_amt;
-        emi_remaining_amt = emi_remaining_amt-emi_remaining_amt;
-      }
-      
-      console.log(emi_remaining_amt, monthly_intrest, total_payable_monthly);
-      
+function calculateEMI(){
+
+    loan_amount = calculateLoanAmount();  
+ 
+    intrest_rate  = getValById("emi_intrest");
+
+    emi_day  = getValById("emi_day");
+
+    duration = parseInt($("#emi_terms option:selected").val());
+
+    emi_amount =  getMonthlyEMI(loan_amount, intrest_rate, duration);
+
+    printEMI(emi_amount, duration, emi_day);
+
+}
+
+function printEMI(emi, duration, emi_day){
+    destroyTable("#payments-table");
+    table = $('#payments-table').DataTable({
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'print'
+        ]
+    });
+    var date = new Date();
+    for(var i=1; i<=duration; i++){
+        date.setDate(emi_day);
+        date.setMonth(date.getMonth() + 1);
+        table.row.add([i, date.toLocaleFormat('%d-%b-%Y'), emi.toFixed(2)]).draw(true);
     }
+}
 
+
+function getMonthlyEMI(principle_amount, intrest_rate, duration){
+
+    intrest_rate   = intrest_rate / 1200;
+
+    emi_amount = 0;
+
+    if(intrest_rate == 0){
+        emi_amount =  principle_amount / duration;
+    }else{
+        emi_amount =  principle_amount * intrest_rate / (1 - (Math.pow(1/(1 + intrest_rate), duration)));
+    }
+    return emi_amount
 }

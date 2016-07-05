@@ -1,5 +1,5 @@
 from booking_api.models import Booking
-from booking_api.serializers import BookingSerializer
+from booking_api.serializers import BookingSerializer, CreateBookingSerializer, BookingDetailsSerializer, BookingListSerializer
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
@@ -8,24 +8,25 @@ from django.http import Http404
 
 class BookingList(generics.ListAPIView):
     queryset = Booking.objects.all()
-    serializer_class = BookingSerializer
+    serializer_class = BookingListSerializer
 
     def list(self, request):
         # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
-        serializer = BookingSerializer(queryset, many=True)
+        serializer = BookingListSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
 class CreateBooking(generics.CreateAPIView):
-    serializer_class = BookingSerializer
+
+    serializer_class = CreateBookingSerializer
 
     def perform_create(self, serializer):
         serializer.save()
 
 
 class DestroyBooking(generics.DestroyAPIView):
-    serializer_class = BookingSerializer
+    serializer_class = BookingSerializer,
 
     def get_object(self, pk):
         try:

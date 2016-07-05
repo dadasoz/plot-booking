@@ -97,3 +97,18 @@ var table;
 var destroyTable = function(id) {
     $(id).DataTable().clear().destroy();
 };
+
+function getValById(id){
+    data = parseInt($("#"+id).val());
+    if(isNaN(data)){
+        return 0;
+    }else{
+        return data;
+    }
+}
+
+$(document).ready(function(){
+    $('.datepicker').datepicker({
+        todayHighlight: true,
+    });
+});
