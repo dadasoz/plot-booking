@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^api/projects/', include('projects_api.urls', namespace="projects_api")),
     url(r'^api/booking/', include('booking_api.urls', namespace="booking_api")),
     url(r'^api/customers/', include('customer_api.urls', namespace="customer_api")),
+    url(r'^api/accounts/', include('accounts_api.urls', namespace="accounts_api")),
 ]
 
 

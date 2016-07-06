@@ -12,13 +12,13 @@ from django.utils import timezone
 
 class Sale(models.Model):
 
-    customer = models.ForeignKey(Customer, related_name="customer")
+    customer = models.ForeignKey(Customer, related_name="sale_customer")
 
-    plot_no = models.ForeignKey(Plots, related_name="plots")
+    plot_no = models.ForeignKey(Plots, related_name="sale_plots")
 
-    booking = models.ForeignKey(Booking, related_name="Booking", null=True)
+    booking = models.ForeignKey(Booking, related_name="sale_booking", null=True)
 
-    is_emi_enabled = models.CharField(max_length=254, blank=True)
+    is_emi_enabled = models.BooleanField(default=False)
 
     created_at = models.DateField(default=timezone.now)
 
@@ -26,16 +26,16 @@ class Sale(models.Model):
 
     sale_completed = models.BooleanField(default=False)
 
-    basic_cost = models.CharField(max_length=254, blank=True)
+    basic_cost = models.DecimalField(max_digits=19, decimal_places=10)
 
-    sales_cost = models.CharField(max_length=254, blank=True)
+    sales_cost = models.DecimalField(max_digits=19, decimal_places=10)
 
-    remaning_cost = models.CharField(max_length=254, blank=True)
+    remaning_cost = models.DecimalField(max_digits=19, decimal_places=10)
 
 
 class EMI(models.Model):
 
-    sale = models.ForeignKey(Customer, related_name="Sale")
+    sale = models.ForeignKey(Customer, related_name="emi_sale")
 
     created_at = models.DateField(default=timezone.now)
 
@@ -43,14 +43,16 @@ class EMI(models.Model):
 
     emi_schedule_date = models.DateField(null=True)
 
+    amount = models.DecimalField(max_digits=19, decimal_places=10)
+
     paid = models.BooleanField(default=False)
 
 
 class SaleTransaction(models.Model):
 
-    sale = models.ForeignKey(Customer, related_name="Sale")
+    sale = models.ForeignKey(Customer, related_name="sales_transaction_sale")
 
-    amount = models.CharField(max_length=254, blank=True)
+    amount = models.DecimalField(max_digits=19, decimal_places=10)
 
     trasaction_type = models.CharField(max_length=254, blank=True)
 
@@ -60,6 +62,6 @@ class SaleTransaction(models.Model):
 
     is_emi = models.BooleanField(default=False)
 
-    emi = models.ForeignKey(EMI, related_name="EMI")
+    emi = models.ForeignKey(EMI, related_name="sales_transaction_emi")
 
     status = models.BooleanField(default=True)

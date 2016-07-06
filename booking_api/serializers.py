@@ -48,4 +48,4 @@ class CreateBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = (
-            'plot_no', 'customer', 'booking_amount')
+            'pk', 'plot_no', 'customer', 'booking_amount')

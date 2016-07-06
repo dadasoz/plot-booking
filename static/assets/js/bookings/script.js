@@ -63,8 +63,25 @@ $(document).ready(function() {
         }
         $.post("/api/booking/create/", form_data, function(data, textStatus) {
             if (data.status == 201) {
-                loadData();
-                $("#booking-modal").modal("hide");
+                booking_data = JSON.parse(data.responseText);
+                booking_id = booking_data.pk;
+                sale_details = {
+                    "booking": booking_id,
+                    'customer': form_data.customer,
+                    'plot_no': $("#plot_id").val(), 
+                    'is_emi_enabled': $("#emi").is(':checked').toString(),
+                    'basic_cost': $("#total_amount").val(),
+                    'sales_cost': $("#total_amount").val(),
+                    'remaning_cost': $("#loan_amount").val(),
+                }
+                $.post("/api/accounts/sales/create/", sale_details, function(sales_data, textStatus) {
+                    if (sales_data.status == 201) {
+                        sales_data = JSON.parse(sales_data.responseText);
+                        console.log(sales_data);
+                    }
+                });
+                //loadData();
+                //$("#booking-modal").modal("hide");
             } else {
                 console.log("Error");
             }
@@ -111,9 +128,9 @@ $(document).ready(function() {
     });
 
 
-    $(document).on('click', '.customer-view', function() {
+    $(document).on('click', '.booking-view', function() {
         id = $(this).attr("data-pk");
-        $("#customer-details-modal").modal("show");
+        $("#booking-details-modal").modal("show");
         $.get("/api/booking/" + id + "/", function(data, status) {
             $("#lbl-name").text(data.first_name + " " + data.middle_name + " " + data.last_name);
             $("#lbl-occupation").text(data.occupation);
@@ -208,9 +225,9 @@ function addData(data) {
     for (var count = 0; count < data.length; count++) {
         booking = data[count];
         buttons = '<div class="table-buttons">';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-view" data-pk="' + booking.pk + '"><i class="fa fa-eye"></i></a>';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-edit" data-pk="' + booking.pk + '"><i class="fa fa-edit"></i></a>';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm customer-delete" data-pk="' + booking.pk + '"><i class="fa fa-trash"></i></a></div>';
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-view" data-pk="' + booking.pk + '"><i class="fa fa-eye"></i></a>';
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-edit" data-pk="' + booking.pk + '"><i class="fa fa-edit"></i></a>';
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-delete" data-pk="' + booking.pk + '"><i class="fa fa-trash"></i></a></div>';
         table.row.add([booking.customer_name, booking.plot_no, booking.basic_amount, booking.booking_amount, booking.customer_email, booking.customer_email, buttons]).draw(true);
     }
 }

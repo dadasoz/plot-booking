@@ -372,7 +372,12 @@
                                   <div class="form-group">
                                     <label class="col-md-4 control-label" for="booking_amount_method">Booking Amount Method</label>
                                     <div class="col-md-8">
-                                      <input id="booking_amount_method" name="booking_amount_method" placeholder="Booking Amount Method" class="form-control input-md" required="" type="text">
+                                      <select id="booking_amount_method"  name="booking_amount_method" class="form-control input-md">
+                                        <option value="Cash">Cash</option>
+                                        <option value="DD">DD</option>
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="Online Transfer">Online Transfer</option>
+                                      </select>
                                     </div>
                                   </div>
                                 </div>
@@ -413,7 +418,12 @@
                                 <div class="form-group">
                                   <label class="col-md-4 control-label" for="down_payment_method">Down Payment Method</label>
                                   <div class="col-md-8">
-                                    <input id="down_payment_method" name="down_payment_method" placeholder="Down Payment Method" class="form-control input-md" required="" type="text">
+                                    <select id="down_payment_method"  name="down_payment_method" class="form-control input-md">
+                                        <option value="Cash">Cash</option>
+                                        <option value="DD">DD</option>
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="Online Transfer">Online Transfer</option>
+                                      </select>
                                   </div>
                                 </div>
                               </div>
@@ -480,7 +490,7 @@
                           </div>
                           <!-- End col md 12 -->
                           <!-- Start col-md-12 -->
-                          <div class="col-md-12 payments-div">
+                          <div class="col-md-12 payments-div" style="display: none;">
                             <table id="payments-table" class="table table-striped table-bordered">
                               <thead>
                                   <tr>
@@ -506,6 +516,7 @@
                         </div>
                     </div>
                 </div>
+              </div>
             </div>
             <!-- #modal-message -->
 
