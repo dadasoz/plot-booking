@@ -15,7 +15,7 @@ class Booking(models.Model):
 
     booking_date = models.CharField(max_length=254)
 
-    updated_at = AutoDateTimeField(default=datetime.now())
+    updated_at = AutoDateTimeField(default=datetime.now().strftime("%d/%m/%Y"))
 
     booking_amount = models.CharField(max_length=254, blank=True)
 
