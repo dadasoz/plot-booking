@@ -87,15 +87,14 @@ $(document).ready(function() {
                             }
                             $.post("/api/accounts/emi/create/", emi_details, function(emi_data, textStatus) {
                                 if (emi_data.status == 201) {
-                                    console.log(emi_data);
+                                    loadData();
+                                    $("#booking-modal").modal("hide");
                                 }
                             });
                         }
                     }
 
                 });
-                //loadData();
-                //$("#booking-modal").modal("hide");
             } else {
                 console.log("Error");
             }
