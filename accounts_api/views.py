@@ -1,10 +1,12 @@
-from booking_api.models import Booking
 from accounts_api import serializers
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework import status
-from django.http import Http404
-from accounts_api.models import Sale, EMI, SaleTransaction
+from accounts_api.models import Sale, EMI, EMI_schedule
+from plots.lib.utils import calculateEMI
+from dateutil import rrule
+from datetime import datetime, date
+
+
 
 class CreateSales(generics.CreateAPIView):
 
@@ -24,8 +26,32 @@ class ListSales(generics.ListAPIView):
         serializer = serializers.ListSalesSerializer(queryset, many=True)
         return Response(serializer.data)
 
+
+class CreateEMI(generics.CreateAPIView):
+
+    serializer_class = serializers.CreateEMISerializer
+
+    def perform_create(self, serializer):
+        emi = serializer.save()
+        self.createEMI(emi)
+
+    def createEMI(self, emi):
+        monthly_emi = calculateEMI(
+            emi.total_amount, emi.intrest_rate, emi.duration)
+        months = int(emi.duration)
+
+        now = date(datetime.now().year, datetime.now().month, 7)
+        tm = 0
+        for dt in rrule.rrule(rrule.MONTHLY, dtstart=now):
+            tm = tm + 1
+            EMI_schedule(
+                emi=emi, emi_schedule_date=dt, amount=monthly_emi).save()
+            if tm == months:
+                break
+
+
 class ListEMI(generics.ListAPIView):
-    
+
     def list(self, request, sales_id):
         sale = Sale.objects.get(pk=sales_id)
         queryset = EMI.objects.filter(sale=sale)

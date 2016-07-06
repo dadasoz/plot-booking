@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts_api.models import Sale
+from accounts_api.models import Sale, EMI, EMI_schedule
 from projects_api.serializers import PlotDetailsSerializer
 
 
@@ -16,3 +16,17 @@ class ListSalesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sale
+
+
+class CreateEMISerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EMI
+        fields = ('pk', 'sale', 'total_amount', 'paid_amount', 'intrest_rate',
+                  'total_intrest', 'duration')
+
+
+class ListEMISerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EMI

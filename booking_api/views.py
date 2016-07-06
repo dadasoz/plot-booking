@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 
-
 class BookingList(generics.ListAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingListSerializer

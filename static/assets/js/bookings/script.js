@@ -60,6 +60,7 @@ $(document).ready(function() {
             'booking_date': $("#booking_date").val(),
             'customer': $("#customer_id").val(),
             'booking_amount': $("#booking_amount").val(),
+            'booking_date': $("#booking_date").val(),
         }
         $.post("/api/booking/create/", form_data, function(data, textStatus) {
             if (data.status == 201) {
@@ -77,8 +78,21 @@ $(document).ready(function() {
                 $.post("/api/accounts/sales/create/", sale_details, function(sales_data, textStatus) {
                     if (sales_data.status == 201) {
                         sales_data = JSON.parse(sales_data.responseText);
-                        console.log(sales_data);
+                        if(sales_data.is_emi_enabled){
+                            emi_details = {
+                                "sale": sales_data.pk,
+                                'total_amount': $("#loan_amount").val(),
+                                'intrest_rate': $("#emi_day").val(), 
+                                'duration': $("#emi_terms option:selected").val(),
+                            }
+                            $.post("/api/accounts/emi/create/", emi_details, function(emi_data, textStatus) {
+                                if (emi_data.status == 201) {
+                                    console.log(emi_data);
+                                }
+                            });
+                        }
                     }
+
                 });
                 //loadData();
                 //$("#booking-modal").modal("hide");

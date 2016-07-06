@@ -16,7 +16,8 @@ class Sale(models.Model):
 
     plot_no = models.ForeignKey(Plots, related_name="sale_plots")
 
-    booking = models.ForeignKey(Booking, related_name="sale_booking", null=True)
+    booking = models.ForeignKey(
+        Booking, related_name="sale_booking", null=True)
 
     is_emi_enabled = models.BooleanField(default=False)
 
@@ -35,7 +36,32 @@ class Sale(models.Model):
 
 class EMI(models.Model):
 
-    sale = models.ForeignKey(Customer, related_name="emi_sale")
+    sale = models.ForeignKey(Sale, related_name="emi_sale")
+
+    created_at = models.DateField(default=timezone.now)
+
+    updated_at = AutoDateTimeField(default=timezone.now)
+
+    total_amount = models.DecimalField(
+        default=0, max_digits=19, decimal_places=10)
+
+    paid_amount = models.DecimalField(
+        default=0, max_digits=19, decimal_places=10)
+
+    intrest_rate = models.DecimalField(
+        default=0, max_digits=19, decimal_places=2)
+
+    total_intrest = models.DecimalField(
+        default=0, max_digits=19, decimal_places=10)
+
+    paid_status = models.BooleanField(default=False)
+
+    duration = models.IntegerField(default=False)
+
+
+class EMI_schedule(models.Model):
+
+    emi = models.ForeignKey(EMI, related_name="emi_data")
 
     created_at = models.DateField(default=timezone.now)
 
@@ -45,7 +71,7 @@ class EMI(models.Model):
 
     amount = models.DecimalField(max_digits=19, decimal_places=10)
 
-    paid = models.BooleanField(default=False)
+    paid_status = models.BooleanField(default=False)
 
 
 class SaleTransaction(models.Model):
@@ -62,6 +88,7 @@ class SaleTransaction(models.Model):
 
     is_emi = models.BooleanField(default=False)
 
-    emi = models.ForeignKey(EMI, related_name="sales_transaction_emi")
+    emi_txn = models.ForeignKey(
+        EMI_schedule, related_name="sales_transaction_emi")
 
     status = models.BooleanField(default=True)
