@@ -2,7 +2,7 @@ from accounts_api import serializers
 from rest_framework import generics
 from rest_framework.response import Response
 from accounts_api.models import Sale, EMI, EMI_schedule
-from plots.lib.utils import calculateEMI
+from plots.lib.utils import EMI_CALCULATOR
 from dateutil import rrule
 from datetime import datetime, date
 from django.http import Http404
@@ -16,6 +16,7 @@ class CreateSales(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
 
+
 class CreateEMI(generics.CreateAPIView):
 
     serializer_class = serializers.CreateEMISerializer
@@ -25,8 +26,8 @@ class CreateEMI(generics.CreateAPIView):
         self.createEMI(emi)
 
     def createEMI(self, emi):
-        monthly_emi = calculateEMI(
-            emi.total_amount, emi.intrest_rate, emi.duration)
+        monthly_emi = EMI_CALCULATOR(
+            emi.total_amount, emi.intrest_rate, emi.duration).calc_emi()
         months = int(emi.duration)
         now = date(datetime.now().year, datetime.now().month, 7)
         tm = 0
@@ -58,7 +59,6 @@ class ListEMI(generics.ListAPIView):
         return Response(serializer.data)
 
 
-
 class DetailsSales(generics.RetrieveAPIView):
     serializer_class = serializers.DetailsSalesSerializer
 
@@ -88,6 +88,7 @@ class DetailsEMI(generics.RetrieveAPIView):
         serializer = serializers.DetailsEMISerializer(emis)
         return Response(serializer.data)
 
+
 class DestroySales(generics.DestroyAPIView):
     serializer_class = serializers.SalesSerializer
 
@@ -101,6 +102,7 @@ class DestroySales(generics.DestroyAPIView):
         sales = self.get_object(pk)
         sales.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class DestroyEMI(generics.DestroyAPIView):
     serializer_class = serializers.EMISerializer

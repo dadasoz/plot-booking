@@ -40,7 +40,7 @@ class DestroyBooking(generics.DestroyAPIView):
 
 
 class BookingDetail(generics.RetrieveAPIView):
-    serializer_class = BookingSerializer
+    serializer_class = BookingDetailsSerializer
 
     def get_object(self, pk):
         try:
@@ -50,7 +50,7 @@ class BookingDetail(generics.RetrieveAPIView):
 
     def get(self, request, pk, format=None):
         booking = self.get_object(pk)
-        serializer = BookingSerializer(booking)
+        serializer = BookingDetailsSerializer(booking)
         return Response(serializer.data)
 
 

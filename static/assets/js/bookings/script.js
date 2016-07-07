@@ -7,27 +7,8 @@ $(document).ready(function() {
     calculateLoanAmount();
 
     $(document).on('click', '.booking-edit', function() {
-        $(".edit-label").show();
-        $(".add-label").hide();
-        $("#booking-modal").modal("show");
         var id = $(this).attr("data-pk");
-        $.get("/api/booking/" + id + "/", function(data, status) {
-                $("#pk").val(data.id);
-                $("#first_name").val(data.first_name);
-                $("#middle_name").val(data.middle_name);
-                $("#last_name").val(data.last_name);
-                $("#occupation").val(data.occupation);
-                $("#dob").val(data.dob);
-                $("#age").val(data.age);
-                $("#marriage_anniversary").val(data.marriage_anniversary);
-                $("#agriculture_status").val(data.agriculture_status);
-
-                $("#update-booking").attr("data-pk", data.id);
-            },
-            function(data, status, st) {
-                console.log("error");
-            }
-        );
+        document.location = "/frontend/bookings/edit/"+id+"/";
     });
 
     $(document).on('click', '#btn-add-booking', function() {
@@ -37,23 +18,6 @@ $(document).ready(function() {
         $("#booking-modal").modal("show");
     });
 
-
-    $(document).on('click', '#update-booking', function() {
-        var form_data = $("#booking-form").serializeArray().reduce(function(a, x) {
-            a[x.name] = x.value;
-            return a;
-        }, {});
-        id = $(this).attr("data-pk");
-        $.patch("/api/booking/update/" + id + "/", form_data, function(data, status) {
-                loadData();
-                $("#booking-modal").modal("hide");
-            },
-            function(data, status, st) {
-                console.log("error");
-            }
-        );
-    });
-
     $(document).on('click', '#add-booking', function() {
         form_data = {
             'plot_no': $("#plot_id").val(),
@@ -61,6 +25,12 @@ $(document).ready(function() {
             'customer': $("#customer_id").val(),
             'booking_amount': $("#booking_amount").val(),
             'booking_date': $("#booking_date").val(),
+            'booking_txn_no': $("#booking_txn_no").val(),
+            'booking_amount_method': $("#booking_amount_method option:selected").val(),
+            'down_payment': $("#down_payment").val(),
+            'down_payment_date': $("#down_payment_date").val(),
+            'down_payment_method': $("#down_payment_method option:selected").val(),
+            'down_payment_txn_no': $("#down_payment_txn_no").val(),
         }
         $.post("/api/booking/create/", form_data, function(data, textStatus) {
             if (data.status == 201) {
@@ -79,11 +49,16 @@ $(document).ready(function() {
                     if (sales_data.status == 201) {
                         sales_data = JSON.parse(sales_data.responseText);
                         if(sales_data.is_emi_enabled){
+                            loan_amount = parseInt($("#loan_amount").val());
+                            total_amount = parseInt($("#total_amount").val());
+                            paid_amount = total_amount - loan_amount;
                             emi_details = {
                                 "sale": sales_data.pk,
                                 'total_amount': $("#loan_amount").val(),
-                                'intrest_rate': $("#emi_day").val(), 
+                                'intrest_rate': $("#emi_intrest").val(),
+                                'paid_amount': paid_amount,
                                 'duration': $("#emi_terms option:selected").val(),
+                                'emi_day': $("#emi_day").val(), 
                             }
                             $.post("/api/accounts/emi/create/", emi_details, function(emi_data, textStatus) {
                                 if (emi_data.status == 201) {
@@ -301,66 +276,3 @@ $(document).on('click', '#calculate-emi', function() {
     calculateEMI();
 });
 
-function calculateLoanAmount(){
-    booking_amount = getValById("booking_amount");
-    down_payment = getValById("down_payment");
-    total_amount = getValById("total_amount");
-
-    paid_amount = booking_amount + down_payment;
-
-    loan_amount = total_amount - paid_amount;
-
-    $("#loan_amount").val(loan_amount);
-
-    return loan_amount;
-
-}
-
-
-function calculateEMI(){
-
-    loan_amount = calculateLoanAmount();  
- 
-    intrest_rate  = getValById("emi_intrest");
-
-    emi_day  = getValById("emi_day");
-
-    duration = parseInt($("#emi_terms option:selected").val());
-
-    emi_amount =  getMonthlyEMI(loan_amount, intrest_rate, duration);
-
-    printEMI(emi_amount, duration, emi_day);
-
-}
-
-function printEMI(emi, duration, emi_day){
-    destroyTable("#payments-table");
-    table = $('#payments-table').DataTable({
-        responsive: true,
-        dom: 'Bfrtip',
-        buttons: [
-            'print'
-        ]
-    });
-    var date = new Date();
-    for(var i=1; i<=duration; i++){
-        date.setDate(emi_day);
-        date.setMonth(date.getMonth() + 1);
-        table.row.add([i, date.toLocaleFormat('%d-%b-%Y'), emi.toFixed(2)]).draw(true);
-    }
-}
-
-
-function getMonthlyEMI(principle_amount, intrest_rate, duration){
-
-    intrest_rate   = intrest_rate / 1200;
-
-    emi_amount = 0;
-
-    if(intrest_rate == 0){
-        emi_amount =  principle_amount / duration;
-    }else{
-        emi_amount =  principle_amount * intrest_rate / (1 - (Math.pow(1/(1 + intrest_rate), duration)));
-    }
-    return emi_amount
-}

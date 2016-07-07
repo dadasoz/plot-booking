@@ -22,14 +22,14 @@ $(document).ready(function() {
                 $("#address1").val(data.address1);
                 $("#address2").val(data.address2);
                 $("#pin_code").val(data.pin_code);
-                $("#photo").val(data.photo);
+                //$("#photo").val(data.photo);
 
                 $("#nominee_name").val(data.nominee_name);
                 $("#nominee_address").val(data.nominee_address);
                 $("#nominee_email").val(data.nominee_email);
                 $("#nominee_mobile").val(data.nominee_mobile);
                 $("#nominee_alternate_mobile").val(data.nominee_alternate_mobile);
-                $("#nominee_photo").val(data.nominee_photo);
+                //$("#nominee_photo").val(data.nominee_photo);
                 $("#nominee_dob").val(data.nominee_dob);
                 $("#nominee_age").val(data.nominee_age);
                 $("#nominee_occupation").val(data.nominee_occupation);

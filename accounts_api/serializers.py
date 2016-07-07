@@ -27,7 +27,7 @@ class CreateEMISerializer(serializers.ModelSerializer):
     class Meta:
         model = EMI
         fields = ('pk', 'sale', 'total_amount', 'paid_amount', 'intrest_rate',
-                  'total_intrest', 'duration')
+                  'total_intrest', 'duration', 'emi_day')
 
 
 class ListSalesSerializer(serializers.ModelSerializer):

@@ -7,8 +7,16 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
 
+
 class CustomerListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ('pk', 'full_name', 'email', 'mobile', 'alternate_mobile', 'address1')
+        fields = ('pk', 'full_name', 'email', 'mobile',
+                  'alternate_mobile', 'address1')
+
+
+class CustomerDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Customer

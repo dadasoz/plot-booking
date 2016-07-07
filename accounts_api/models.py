@@ -58,6 +58,8 @@ class EMI(models.Model):
 
     duration = models.IntegerField(default=False)
 
+    emi_day = models.IntegerField(default=False)
+
 
 class EMI_schedule(models.Model):
 

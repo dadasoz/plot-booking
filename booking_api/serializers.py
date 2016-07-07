@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from booking_api.models import Booking
+from customer_api.serializers import CustomerDetailsSerializer
+from accounts_api.serializers import DetailsSalesSerializer
+from projects_api.serializers import PlotDetailsSerializer
 
 
 class BookingSerializer(serializers.ModelSerializer):
@@ -37,10 +40,16 @@ class BookingListSerializer(serializers.ModelSerializer):
 
 class BookingDetailsSerializer(serializers.ModelSerializer):
 
+    customer = CustomerDetailsSerializer(read_only=True)
+
+    plot_no = PlotDetailsSerializer(read_only=True)
+
+    sale_booking = DetailsSalesSerializer(many=True, read_only=True)
+
     class Meta:
         model = Booking
         fields = (
-            'pk', 'plot_no', 'customer', 'booking_amount', 'is_booking_cancled', 'booking_date')
+            'pk', 'plot_no', 'customer', 'booking_amount', 'is_booking_cancled', 'booking_date', 'sale_booking', 'booking_txn_no', 'booking_amount_method', 'down_payment', 'down_payment_date', 'down_payment_method', 'down_payment_txn_no')
 
 
 class CreateBookingSerializer(serializers.ModelSerializer):
@@ -48,4 +57,4 @@ class CreateBookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = (
-            'pk', 'plot_no', 'customer', 'booking_amount', 'booking_date')
+            'pk', 'plot_no', 'customer', 'booking_amount', 'booking_date', 'booking_txn_no', 'booking_amount_method', 'down_payment', 'down_payment_date', 'down_payment_method', 'down_payment_txn_no')

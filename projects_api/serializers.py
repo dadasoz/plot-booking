@@ -115,8 +115,8 @@ class ProjectsForPlotsSerializer(serializers.ModelSerializer):
 
 
 class PlotDetailsSerializer(serializers.ModelSerializer):
-
+    project_name = serializers.CharField(source='project.name', read_only=True)
     class Meta:
         model = Plots
         fields = ('pk', 'plot_no', 'is_booked', 'is_saled', 'facing', 'width',
-                  'breadth', 'area', 'created_at', 'basic_cost', 'project', 'rate_per_sqft', 'survey_no')
+                  'breadth', 'area', 'created_at', 'basic_cost', 'project', 'rate_per_sqft', 'survey_no', 'project_name')

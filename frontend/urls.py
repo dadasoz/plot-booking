@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^plots/$', views.plots_view, name="plots"),
     url(r'^customers/$', views.customers_view, name="customers"),
     url(r'^bookings/$', views.bookings_view, name="bookings"),
+    url(r'^bookings/edit/(?P<pk>[0-9]+)/$', views.bookings_edit, name="bookings_edit"),
 ]
