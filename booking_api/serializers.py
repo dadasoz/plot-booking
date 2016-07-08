@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from booking_api.models import Booking
 from customer_api.serializers import CustomerDetailsSerializer
-from accounts_api.serializers import DetailsSalesSerializer
+from accounts_api.serializers import DetailsSalesSerializerForBooking
 from projects_api.serializers import PlotDetailsSerializer
 
 
@@ -44,7 +44,7 @@ class BookingDetailsSerializer(serializers.ModelSerializer):
 
     plot_no = PlotDetailsSerializer(read_only=True)
 
-    sale_booking = DetailsSalesSerializer(many=True, read_only=True)
+    sale_booking = DetailsSalesSerializerForBooking(many=True, read_only=True)
 
     class Meta:
         model = Booking

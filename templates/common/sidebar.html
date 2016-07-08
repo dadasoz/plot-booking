@@ -29,13 +29,25 @@
 
             <li {% if menu == "customers" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/customers/"><i class="fa fa-user"></i> <span>Customers</span></a></li>
 
-            <li {% if menu == "accounts" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/"><i class="fa fa-file-excel-o"></i> <span>Accounts</span></a></li>
-
-            <li {% if menu == "users" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/users/"><i class="fa fa-users"></i> <span>Users</span></a></li>
+            <li class="has-sub {% if menu == "accounts" %}active{% endif%}"><a href="javascript:void(0);"><i class="fa fa-file-excel-o"></i> <span>Accounts</span><b class="caret pull-right"></b></a>
+                <ul class="sub-menu">
+                    <li {% if submenu == "dashboard" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/"><span>Dashboard</span></a>
+                    <li {% if submenu == "sales" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/sales/"><span>Sales</span></a>
+                    <li {% if submenu == "expences" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/expences/"><span>Expences</span></a>
+                </ul>
+            </li>
+            <li {% if menu == "agents" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/agents/"><i class="fa fa-users"></i> <span>Agents</span></a></li>
 
             <li {% if menu == "feedback" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/feedback/"><i class="fa fa-comments-o"></i> <span>Feedback</span></a></li>
 
             <li {% if menu == "reports" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/reports/"><i class="fa fa-file-text-o"></i> <span>Reports</span></a></li>
+
+            <li class="has-sub {% if menu == "administration" %}active{% endif%}"><a href="javascript:void(0);"><i class="fa fa-cogs"></i> <span>Administration</span><b class="caret pull-right"></b></a>
+                <ul class="sub-menu">
+                    <li {% if submenu == "dashboard" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/admin/dashbaord"><span>Dashboard</span></a>
+                    <li {% if submenu == "settings" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/admin/settings/"><span>Settings</span></a>
+                </ul>
+            </li>
 
             <!-- begin sidebar minify button -->
             <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
