@@ -1,5 +1,5 @@
 """
-Django settings for myproject project.
+Django settings for plots project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.8/topics/settings/
