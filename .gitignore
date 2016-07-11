@@ -3,5 +3,7 @@
 *.bak
 *.orig
 *~
-.project
 .pydevproject
+# Packages
+*.egg
+*.egg-info

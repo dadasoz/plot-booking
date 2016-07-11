@@ -1,0 +1,28 @@
+.table-buttons{
+    min-width: 85px;   
+}
+
+.table-buttons a{
+    margin-right: 5px;
+}
+
+#cust-table{
+    display: table;
+    width: 100%;
+}
+
+.divider{
+    border-top: 1px solid #e2e7eb;
+}
+
+.tbl-icon{
+    font-size: 14px;
+}
+
+.icon-true{
+    color: green;
+}
+
+.icon-false{
+    color: red;
+}

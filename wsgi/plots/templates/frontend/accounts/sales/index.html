@@ -1,0 +1,87 @@
+{% extends "frontend_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Sales{% endblock %}
+
+{% block page_css %}
+    <!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+    <link href="{% static "assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css"%}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/gritter/css/jquery.gritter.css"%}" rel="stylesheet" />
+
+    <link href="{% static "assets/plugins/DataTables/css/data-table.css"%}" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+
+{% endblock %}
+
+{% block sidebar %}
+  {% include "common/sidebar.html" with menu="accounts" submenu="sales" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Home</a></li>
+    <li><a href="/frontend/accounts/">Accounts</a></li>
+    <li class="active">Sales</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Sales</h1>
+<!-- end page-header -->
+{% endblock %}
+
+{% block contents %}
+    <!-- begin row -->
+    <div class="row">
+       <div class="col-md-12 ui-sortable">
+            <!-- begin panel -->
+            <div class="panel panel-inverse" data-sortable-id="table-basic-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <h4 class="panel-title">Sales</h4>
+                </div>
+                <div class="panel-body">
+                    <table id="sales-data" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Customer Name</th>
+                                <th>Plot No</th>
+                                <th>Besic Amount</th>
+                                <th>Paid Amount</th>
+                                <th>Remaining Amount</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+
+{% block page_js %}
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="{% static "assets/plugins/gritter/js/jquery.gritter.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/jquery.dataTables.min-new.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/dataTables.buttons.min-new.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/buttons.print.min.js"%}"></script>
+
+    <script src="{% static "assets/js/apps.js"%}"></script>
+    <script src="{% static "assets/js/accounts/sales/script.js"%}"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+{% endblock %}

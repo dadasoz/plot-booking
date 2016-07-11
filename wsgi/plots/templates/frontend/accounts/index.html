@@ -1,0 +1,112 @@
+{% extends "frontend_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Accounts : Dashboard{% endblock %}
+
+{% block page_css %}
+    <!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+    <link href="{% static "assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css"%}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/gritter/css/jquery.gritter.css"%}" rel="stylesheet" />
+
+    <link href="{% static "assets/plugins/DataTables/css/data-table.css"%}" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+
+{% endblock %}
+
+{% block sidebar %}
+  {% include "common/sidebar.html" with menu="accounts" submenu="dashboard" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Home</a></li>
+    <li><a href="/frontend/accounts/">Accounts</a></li>
+    <li class="active">Dashboard</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Accounts : Dashboard</h1>
+<!-- end page-header -->
+{% endblock %}
+
+{% block contents %}
+    <!-- begin row -->
+    <div class="row">
+        <div class="row">
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="widget widget-stats bg-green">
+            <div class="stats-icon"><i class="fa fa-desktop"></i></div>
+            <div class="stats-info">
+              <h4>TOTAL VISITORS</h4>
+              <p>3,291,922</p>  
+            </div>
+            <div class="stats-link">
+              <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- end col-3 -->
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="widget widget-stats bg-blue">
+            <div class="stats-icon"><i class="fa fa-chain-broken"></i></div>
+            <div class="stats-info">
+              <h4>BOUNCE RATE</h4>
+              <p>20.44%</p> 
+            </div>
+            <div class="stats-link">
+              <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- end col-3 -->
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="widget widget-stats bg-purple">
+            <div class="stats-icon"><i class="fa fa-users"></i></div>
+            <div class="stats-info">
+              <h4>UNIQUE VISITORS</h4>
+              <p>1,291,922</p>  
+            </div>
+            <div class="stats-link">
+              <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- end col-3 -->
+        <!-- begin col-3 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="widget widget-stats bg-red">
+            <div class="stats-icon"><i class="fa fa-clock-o"></i></div>
+            <div class="stats-info">
+              <h4>AVG TIME ON SITE</h4>
+              <p>00:12:23</p> 
+            </div>
+            <div class="stats-link">
+              <a href="javascript:;">View Detail <i class="fa fa-arrow-circle-o-right"></i></a>
+            </div>
+          </div>
+        </div>
+        <!-- end col-3 -->
+      </div>
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+
+{% block page_js %}
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="{% static "assets/plugins/gritter/js/jquery.gritter.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/jquery.dataTables.js"%}"></script>
+    <script src="{% static "assets/js/apps.js"%}"></script>
+    <script src="{% static "assets/js/customers/script.js"%}"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+{% endblock %}
