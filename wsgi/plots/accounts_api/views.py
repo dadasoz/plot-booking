@@ -1,7 +1,7 @@
 from accounts_api import serializers
 from rest_framework import generics
 from rest_framework.response import Response
-from accounts_api.models import Sale, EMI, EMI_schedule
+from accounts_api.models import Sale, EMI, EMI_schedule, SaleTransaction
 from plots.lib.utils import EMI_CALCULATOR
 from dateutil import rrule
 from datetime import datetime, date
@@ -14,7 +14,25 @@ class CreateSales(generics.CreateAPIView):
     serializer_class = serializers.CreateSalesSerializer
 
     def perform_create(self, serializer):
-        serializer.save()
+        sale = serializer.save()
+        self.create_transactions(sale)
+
+    def create_transactions(self, sale):
+        booking = sale.booking
+        status = False
+        if int(booking.booking_amount):
+            if booking.booking_amount_method == "Cash":
+                status = True
+            booking_txn = SaleTransaction(sale=sale, amount=booking.booking_amount, source="1",
+                                          trasaction_type=booking.booking_amount_method, trasaction_type_no=booking.booking_txn_no, status=status)
+            booking_txn.save()
+        status = False
+        if int(booking.down_payment):
+            if booking.down_payment_method == "Cash":
+                status = True
+            down_payment_txn = SaleTransaction(sale=sale, amount=booking.down_payment, source="2",
+                                               trasaction_type=booking.down_payment_method, trasaction_type_no=booking.down_payment_txn_no, status=status)
+            down_payment_txn.save()
 
 
 class CreateEMI(generics.CreateAPIView):
@@ -117,3 +135,73 @@ class DestroyEMI(generics.DestroyAPIView):
         emi = self.get_object(pk)
         emi.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UpdateSales(generics.UpdateAPIView):
+    serializer_class = serializers.SalesUpdateSerializer
+
+    def get_object(self, pk):
+        try:
+            return Sale.objects.get(pk=pk)
+        except Sale.DoesNotExist:
+            raise Http404
+
+    def patch(self, request, pk, format=None):
+        sale = self.get_object(pk)
+        serializer = serializers.SalesUpdateSerializer(sale, data=request.data)
+        if serializer.is_valid():
+            sale = serializer.save()
+            self.update_transactions(sale)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def update_transactions(self, sale):
+        SaleTransaction.objects.filter(sale=sale).delete()
+        booking = sale.booking
+        status = False
+        if int(booking.booking_amount):
+            if booking.booking_amount_method == "Cash":
+                status = True
+            booking_txn = SaleTransaction(sale=sale, amount=booking.booking_amount, source="1",
+                                          trasaction_type=booking.booking_amount_method, trasaction_type_no=booking.booking_txn_no, status=status)
+            booking_txn.save()
+        status = False
+        if int(booking.down_payment):
+            if booking.down_payment_method == "Cash":
+                status = True
+            down_payment_txn = SaleTransaction(sale=sale, amount=booking.down_payment, source="2",
+                                               trasaction_type=booking.down_payment_method, trasaction_type_no=booking.down_payment_txn_no, status=status)
+            down_payment_txn.save()
+
+
+class UpdateEMI(generics.UpdateAPIView):
+    serializer_class = serializers.EMIUpdateSerializer
+
+    def get_object(self, pk):
+        try:
+            return EMI.objects.get(pk=pk)
+        except EMI.DoesNotExist:
+            raise Http404
+
+    def patch(self, request, pk, format=None):
+        emi = self.get_object(pk)
+        serializer = serializers.EMIUpdateSerializer(emi, data=request.data)
+        if serializer.is_valid():
+            emi = serializer.save()
+            EMI_schedule.objects.filter(emi=emi).delete()
+            self.updateEMI(emi)
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def updateEMI(self, emi):
+        monthly_emi = EMI_CALCULATOR(
+            emi.total_amount, emi.intrest_rate, emi.duration).calc_emi()
+        months = int(emi.duration)
+        now = date(datetime.now().year, datetime.now().month, 7)
+        tm = 0
+        for dt in rrule.rrule(rrule.MONTHLY, dtstart=now):
+            tm = tm + 1
+            EMI_schedule(
+                emi=emi, emi_schedule_date=dt, amount=monthly_emi).save()
+            if tm == months:
+                break
