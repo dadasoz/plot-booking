@@ -108,8 +108,8 @@ DATABASES = {
         'NAME': 'landworld',
         'USER': 'adminmVwr54P',
         'PASSWORD': 'ASm_4qe9vF3-',
-        'HOST': os.environ.get('OPENSHIFT_DB_HOST'),   # Or an IP Address that your DB is hosted on
-        'PORT': os.environ.get('OPENSHIFT_DB_PORT'),
+        'HOST': os.environ.get('OPENSHIFT_MYSQL_DB_HOST'),   # Or an IP Address that your DB is hosted on
+        'PORT': os.environ.get('OPENSHIFT_MYSQL_DB_PORT'),
     }
 }
 

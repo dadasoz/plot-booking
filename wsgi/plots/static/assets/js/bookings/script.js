@@ -276,3 +276,77 @@ $(document).on('click', '#calculate-emi', function() {
     calculateEMI();
 });
 
+
+
+function calculateLoanAmount(){
+    booking_amount = getValById("booking_amount");
+    down_payment = getValById("down_payment");
+    total_amount = getValById("total_amount");
+
+    paid_amount = booking_amount + down_payment;
+
+    loan_amount = total_amount - paid_amount;
+
+    $("#loan_amount").val(loan_amount);
+
+    return loan_amount;
+
+}
+
+
+function calculateEMI(){
+
+    loan_amount = calculateLoanAmount();  
+ 
+    intrest_rate  = getValById("emi_intrest");
+
+    emi_day  = getValById("emi_day");
+
+    duration = parseInt($("#emi_terms option:selected").val());
+
+    emi_amount =  getMonthlyEMI(loan_amount, intrest_rate, duration);
+
+    printEMI(emi_amount, duration, emi_day);
+
+}
+
+function printEMI(emi, duration, emi_day){
+    destroyTable("#payments-table");
+    table = $('#payments-table').DataTable({
+        responsive: true,
+        dom: 'Bfrtip',
+        buttons: [
+            'print'
+        ]
+    });
+    var date = new Date();
+    for(var i=1; i<=duration; i++){
+        date.setDate(emi_day);
+        date.setMonth(date.getMonth() + 1);
+        table.row.add([i, date.toLocaleFormat('%d-%b-%Y'), emi.toFixed(2)]).draw(true);
+    }
+}
+
+
+function getMonthlyEMI(principle_amount, intrest_rate, duration){
+
+    intrest_rate   = intrest_rate / 1200;
+
+    emi_amount = 0;
+
+    if(intrest_rate == 0){
+        emi_amount =  principle_amount / duration;
+    }else{
+        emi_amount =  principle_amount * intrest_rate / (1 - (Math.pow(1/(1 + intrest_rate), duration)));
+    }
+    return emi_amount
+}
+
+function getTrueFalse(status){
+    if(status){
+        status = '<label class="tbl-icon icon-true"><i class="fa fa-check" aria-hidden="true"></i></label>';
+    }else{
+        status = '<label class="tbl-icon icon-false"><i class="fa fa-times " aria-hidden="true"></i></label>';
+    }
+    return status;
+}

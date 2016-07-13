@@ -78,9 +78,11 @@ class EMI_schedule(models.Model):
 
 class SaleTransaction(models.Model):
 
-    sale = models.ForeignKey(Customer, related_name="sales_transaction_sale")
+    sale = models.ForeignKey(Sale, related_name="sales_transactions")
 
     amount = models.DecimalField(max_digits=19, decimal_places=10)
+
+    source = models.CharField(max_length=254, blank=True)
 
     trasaction_type = models.CharField(max_length=254, blank=True)
 
@@ -91,6 +93,6 @@ class SaleTransaction(models.Model):
     is_emi = models.BooleanField(default=False)
 
     emi_txn = models.ForeignKey(
-        EMI_schedule, related_name="sales_transaction_emi")
+        EMI_schedule, related_name="sales_transaction_emi", null=True)
 
     status = models.BooleanField(default=True)

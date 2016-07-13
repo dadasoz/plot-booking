@@ -58,3 +58,11 @@ class CreateBookingSerializer(serializers.ModelSerializer):
         model = Booking
         fields = (
             'pk', 'plot_no', 'customer', 'booking_amount', 'booking_date', 'booking_txn_no', 'booking_amount_method', 'down_payment', 'down_payment_date', 'down_payment_method', 'down_payment_txn_no')
+
+
+class BookingUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Booking
+        fields = (
+            'pk', 'plot_no', 'booking_amount', 'booking_date', 'booking_txn_no', 'booking_amount_method', 'down_payment', 'down_payment_date', 'down_payment_method', 'down_payment_txn_no')
