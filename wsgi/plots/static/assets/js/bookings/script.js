@@ -216,7 +216,7 @@ function addData(data) {
     for (var count = 0; count < data.length; count++) {
         booking = data[count];
         buttons = '<div class="table-buttons">';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-view" data-pk="' + booking.pk + '"><i class="fa fa-eye"></i></a>';
+        //buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-view" data-pk="' + booking.pk + '"><i class="fa fa-eye"></i></a>';
         buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-edit" data-pk="' + booking.pk + '"><i class="fa fa-edit"></i></a>';
         buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm booking-delete" data-pk="' + booking.pk + '"><i class="fa fa-trash"></i></a></div>';
         table.row.add([booking.customer_name, booking.plot_no, booking.basic_amount, booking.booking_amount, booking.customer_email, booking.customer_email, buttons]).draw(true);

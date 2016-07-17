@@ -13,10 +13,7 @@ $(document).ready(function() {
     });
 });
 function getSalesDetails(){
-    sales_id = $("#sales_id").val();
-    if(sales_id === ""){
-        sales_id = getQuery("pk");
-    }
+    sales_id = $("#sales_id").attr("data-pk");
     $.get("/api/accounts/sales/" + sales_id + "/", function(data, status) {
         customer = data.customer;
         booking = data.booking;
@@ -132,10 +129,7 @@ function printTransactions(transactions){
 
 
 $(document).on('click', '#update-button', function() {
-    sales_id = $("#sales_id").val();
-    if(sales_id === ""){
-        sales_id = getQuery("pk");
-    }
+    sales_id = $("#sales_id").attr("data-pk");
     calculateLoanAmount();
     booking_id = $("#booking_id").val();
     form_data = {

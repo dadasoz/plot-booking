@@ -12,7 +12,7 @@ class Booking(models.Model):
 
     plot_no = models.ForeignKey(Plots, related_name="plots")
 
-    updated_at = models.DateField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now_add = True)
 
     is_booking_cancled = models.CharField(max_length=254, blank=True)
 
