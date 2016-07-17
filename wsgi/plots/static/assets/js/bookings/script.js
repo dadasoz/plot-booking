@@ -66,6 +66,9 @@ $(document).ready(function() {
                                     $("#booking-modal").modal("hide");
                                 }
                             });
+                        }else{
+                            loadData();
+                            $("#booking-modal").modal("hide");
                         }
                     }
 
@@ -268,9 +271,6 @@ function checkQueryParam(){
     }
 }
 
-function getQuery(q) {
-    return (window.location.search.match(new RegExp('[?&]' + q + '=([^&]+)')) || [, null])[1];
-}
 
 $(document).on('click', '#calculate-emi', function() {
     calculateEMI();

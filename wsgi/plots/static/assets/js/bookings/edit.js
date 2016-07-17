@@ -73,7 +73,6 @@ function getBookingDetails(){
         if(sale.is_emi_enabled){
             $(".emi-div").show();
             $(".payments-div").show();
-            calculateEMI();
             emi = sale.emi_sale[0]
             if(emi != undefined){
                 $("#emi_id").val(emi.id);

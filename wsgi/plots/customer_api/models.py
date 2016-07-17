@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
 
+from plots.lib.utils import AutoDateTimeField
 # Create your models here.
 
 class Customer(models.Model):
@@ -67,6 +69,10 @@ class Customer(models.Model):
     nominee_occupation = models.CharField(max_length=254, blank=True)
 
     relation = models.CharField(max_length=254, blank=True)
+
+    created_at = models.DateTimeField(default=timezone.now)
+
+    updated_at = AutoDateTimeField(default=timezone.now)
 
     def full_name(self):
         return "{0} {1} {2}".format(self.first_name,self.middle_name,self.last_name)

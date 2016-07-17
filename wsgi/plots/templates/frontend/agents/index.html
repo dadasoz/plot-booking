@@ -1,0 +1,397 @@
+{% extends "frontend_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Agents{% endblock %}
+
+{% block page_css %}
+    <!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+    <link href="{% static "assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css"%}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/gritter/css/jquery.gritter.css"%}" rel="stylesheet" />
+
+    <link href="{% static "assets/plugins/DataTables/css/data-table.css"%}" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+
+{% endblock %}
+
+{% block sidebar %}
+  {% include "common/sidebar.html" with menu="agents" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Home</a></li>
+    <li class="active">Agents</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Agents</h1>
+<!-- end page-header -->
+{% endblock %}
+
+{% block contents %}
+    <!-- begin row -->
+    <div class="row">
+       <div class="col-md-12 ui-sortable">
+            <!-- begin panel -->
+            <div class="panel panel-inverse" data-sortable-id="table-basic-1">
+                <div class="panel-heading">
+                    <div class="panel-heading-btn">
+                        <a class="accordion-toggle accordion-toggle-styled" href="javascript:;" id="btn-add-agent">
+                              <button type="button" class="btn btn-xs btn-inverse"><i class="fa fa-plus"></i> New Agent</button>
+                        </a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    </div>
+                    <h4 class="panel-title">All Agents</h4>
+                </div>
+                <div class="panel-body">
+                    <table id="agent-data" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Alternate Contact</th>
+                                <th>Address</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- end panel -->
+            <div class="modal" id="agent-modal">
+                <div class="modal-dialog" style="width: 85%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title edit-label">Edit Agent Details</h4>
+                            <h4 class="modal-title add-label">Add New Agent</h4>
+                        </div>
+                        <div class="modal-body">
+                          <form class="form-horizontal" id="agent-form">
+                            <ul class="nav nav-tabs">
+                              <li class="active"><a href="#default-tab-1" data-toggle="tab">Personal Information</a></li>
+                              <li class=""><a href="#default-tab-2" data-toggle="tab">Contact Information</a></li>
+                            </ul>
+                            <div class="tab-content" id="cust-table">
+                                <div class="tab-pane fade active in" id="default-tab-1">
+                                  <!-- Start col md 12 -->
+                                  <div class="col-md-12">
+                                    <!-- Start col md 6 -->
+                                    <div class="col-md-6">
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <input id="pk" name="pk" type="hidden" value="">
+                                        <label class="col-md-4 control-label" for="first_name">First Name</label>  
+                                        <div class="col-md-8">
+                                        <input id="first_name" name="first_name" placeholder="First Name" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="middle_name">Middle Name</label>  
+                                        <div class="col-md-8">
+                                        <input id="middle_name" name="middle_name" placeholder="Middle Name" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="last_name">Last Name</label>  
+                                        <div class="col-md-8">
+                                        <input id="last_name" name="last_name" placeholder="Last Name" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="occupation">Occupation</label>  
+                                        <div class="col-md-8">
+                                        <input id="occupation" name="occupation" placeholder="Occupation" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="dob">Date of birth</label>  
+                                        <div class="col-md-8">
+                                        <input id="dob" name="dob" placeholder="Date of birth" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                    <!-- End col md 6 -->
+
+                                    <!-- Start col md 6 -->
+                                    <div class="col-md-6">
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="age">Age</label>  
+                                        <div class="col-md-8">
+                                        <input id="age" name="age" placeholder="Age" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="marriage_anniversary">Marriage anniversary</label>  
+                                        <div class="col-md-8">
+                                        <input id="marriage_anniversary" name="marriage_anniversary" placeholder="Marriage Anniversary" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="agriculture_status">Agriculture status</label>  
+                                        <div class="col-md-8">
+                                        <input id="agriculture_status" name="agriculture_status" placeholder="Agriculture status" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+
+                                      <!-- Text input-->
+                                      <div class="form-group">
+                                        <label class="col-md-4 control-label" for="purpose_of_buying">Purpose of buying</label>  
+                                        <div class="col-md-8">
+                                        <input id="purpose_of_buying" name="purpose_of_buying" placeholder="Purpose of buying" class="form-control input-md" required="" type="text">
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- End col md 6 -->
+                                  </div>
+                                  <!-- End col md 12 -->
+                                </div>
+                                <div class="tab-pane fade" id="default-tab-2">
+                                  <!-- Start col md 12 -->
+                                <div class="col-md-12">
+                                  <!-- Start col md 6 -->
+                                  <div class="col-md-6">
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="email">Email</label>  
+                                      <div class="col-md-8">
+                                      <input id="email" name="email" placeholder="Email" class="form-control input-md" required="" type="text">
+                                      </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="mobile">Mobile</label>  
+                                      <div class="col-md-8">
+                                      <input id="mobile" name="mobile" placeholder="Mobile" class="form-control input-md" required="" type="text">
+                                      </div>
+                                    </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="alternate_mobile">Alternate Contact</label>  
+                                      <div class="col-md-8">
+                                      <input id="alternate_mobile" name="alternate_mobile" placeholder="Alternate Contact" class="form-control input-md" required="" type="text">
+                                      </div>
+                                    </div>
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="address1">Permenanat Address</label>  
+                                      <div class="col-md-8">
+                                      <textarea id="address1" name="address1" placeholder="Permenanat Address" class="form-control input-md"></textarea> 
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                  <!-- End col md 6 -->
+
+                                  <!-- Start col md 6 -->
+                                  <div class="col-md-6">
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="address2">Current Address</label>  
+                                      <div class="col-md-8">
+                                      <textarea id="address2" name="address2" placeholder="Permenanat Address" class="form-control input-md"></textarea> 
+                                      </div>
+                                    </div>                                  
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="pin_code">Pin Code</label>
+                                      <div class="col-md-8">
+                                      <input id="pin_code" name="pin_code" placeholder="Pin Code" class="form-control input-md" required="" type="text">
+                                      </div>
+                                    </div>
+
+                                    <!-- Text input-->
+                                    <div class="form-group">
+                                      <label class="col-md-4 control-label" for="photo">Photo</label>  
+                                      <div class="col-md-8">
+                                      <input id="photo" name="photo" placeholder="Agriculture status" class="form-control file-md" required="" type="file">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- End col md 6 -->
+                                </div>
+                                <!-- End col md 12 -->
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="javascript:;" class="btn btn-sm btn-success edit-label" id="update-agent" data-pk="">Update</a>
+                            <a href="javascript:;" class="btn btn-sm btn-success add-label" id="add-agent" data-pk="">Save</a>
+                            <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #modal-message -->
+
+            <!-- end panel -->
+            <div class="modal" id="agent-details-modal">
+                <div class="modal-dialog" style="width: 85%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Agent Details</h4>
+                        </div>
+                        <div class="modal-body" style="display: table;">
+                          <!-- Start panel -->
+
+                          <div class="panel panel-inverse">
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Personal Information</h4>
+                            </div>
+
+                            <div class="panel-body bg-silver">
+                              <div class="col-md-6">
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Name :</label></div>
+                                  <div class="col-md-8"><label id="lbl-name"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Age :</label></div>
+                                  <div class="col-md-8"><label id="lbl-age"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Date of birth :</label></div>
+                                  <div class="col-md-8"><label id="lbl-dob"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Occupation :</label></div>
+                                  <div class="col-md-8"><label id="lbl-occupation"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Marriage Anniversary :</label></div>
+                                  <div class="col-md-8"><label id="lbl-marriage_anniversary"></label></div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Photo:</label></div>
+                                  <div class="col-md-8">
+                                    <img src="" id="lbl-photo" height="120" width="90">
+                                  </div>
+                                </div> 
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Agriculture Status :</label></div>
+                                  <div class="col-md-8"><label id="lbl-agriculture_status"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Purpose of buying :</label></div>
+                                  <div class="col-md-8"><label id="lbl-purpose_of_buying"></label></div>
+                                </div>                          
+                              </div>
+
+                            </div>
+                          </div>
+                          <!-- End panel -->
+
+                          <!-- Start panel -->
+                          <div class="panel panel-inverse">
+
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Contact Details</h4>
+                            </div>
+
+                            <div class="panel-body bg-silver">
+
+                              <div class="col-md-6">
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Email :</label></div>
+                                  <div class="col-md-8"><label id="lbl-email"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Mobile :</label></div>
+                                  <div class="col-md-8"><label id="lbl-mobile"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Alternate Mobile :</label></div>
+                                  <div class="col-md-8"><label id="lbl-alternate_mobile"></label></div>
+                                </div>
+
+                              </div>
+
+                              <div class="col-md-6">
+                                
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Current Address :</label></div>
+                                  <div class="col-md-8"><label id="lbl-address1"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Permenent Address :</label></div>
+                                  <div class="col-md-8"><label id="lbl-address2"></label></div>
+                                </div>
+
+                                <div class="col-md-12 p-10">
+                                  <div class="col-md-4"><label>Pin Code :</label></div>
+                                  <div class="col-md-8"><label id="lbl-pin_code"></label></div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <!-- End panel -->
+                          <!-- Start panel -->
+                        </div>
+                        <div class="modal-footer">
+                            <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #modal-message -->
+
+        </div>
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+
+{% block page_js %}
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="{% static "assets/plugins/gritter/js/jquery.gritter.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/jquery.dataTables.js"%}"></script>
+    <script src="{% static "assets/js/apps.js"%}"></script>
+    <script src="{% static "assets/js/agents/script.js"%}"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+{% endblock %}

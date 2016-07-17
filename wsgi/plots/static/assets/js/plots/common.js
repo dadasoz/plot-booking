@@ -112,3 +112,7 @@ $(document).ready(function(){
         todayHighlight: true,
     });
 });
+
+function getQuery(q) {
+    return (window.location.search.match(new RegExp('[?&]' + q + '=([^&]+)')) || [, null])[1];
+}

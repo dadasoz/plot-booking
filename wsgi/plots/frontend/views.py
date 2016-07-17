@@ -86,3 +86,10 @@ def feedback_view(request):
 @validate_cookie
 def reports_view(request):
     return render(request, "frontend/reports/index.html", {})
+
+
+
+@login_required(login_url='/auth/login/')
+@validate_cookie
+def agents_view(request):
+    return render(request, "frontend/agents/index.html", {})

@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from accounts_api.models import Sale, EMI, EMI_schedule, SaleTransaction
-from customer_api.serializers import CustomerListSerializer
 from booking_api.models import Booking
-
+from customer_api.serializers import CustomerDetailsSerializer, CustomerListSerializer
+from projects_api.serializers import PlotDetailsSerializer
 
 # Default serializers
 
@@ -80,6 +80,13 @@ class ListTransactionSerializer(serializers.ModelSerializer):
 
 # Detail View serializers
 
+class DetailsTransactionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
+        fields = ('pk', 'sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
+                  'emi_txn', 'status', 'created_at', 'source')
+
 class DetailsEMISerializer(serializers.ModelSerializer):
 
     emi_data = ListEMI_scheduleSerializer(many=True, read_only=True)
@@ -100,20 +107,19 @@ class DetailsSalesSerializer(serializers.ModelSerializer):
 
     booking = BookingSerializer(many=False)
 
+    customer = CustomerDetailsSerializer(many=False)
+
+    plot_no = PlotDetailsSerializer(many=False)
+
     emi_sale = DetailsEMISerializer(many=True, read_only=True)
+
+    sales_transactions = DetailsTransactionSerializer(
+        many=True, read_only=True)
 
     class Meta:
         model = Sale
         fields = ('pk', 'customer', 'plot_no', 'booking', 'is_emi_enabled', 'basic_cost',
-                  'sales_cost', 'remaning_cost', 'emi_sale')
-
-
-class DetailsTransactionSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = SaleTransaction
-        fields = ('pk', 'sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
-                  'emi_txn', 'status', 'created_at', 'source')
+                  'sales_cost', 'remaning_cost', 'emi_sale', 'sales_transactions')
 
 
 class DetailsSalesSerializerForBooking(serializers.ModelSerializer):

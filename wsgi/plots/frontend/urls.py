@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^users/$', views.users_view, name="users"),
     url(r'^feedback/$', views.feedback_view, name="feedback"),
     url(r'^reports/$', views.reports_view, name="reports"),
+
+    url(r'^agents/$', views.agents_view, name="agents"),
 ]

@@ -1,27 +1,25 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils import timezone
+
+from user_auth.models import User
+from plots.lib.utils import AutoDateTimeField
 
 # Create your models here.
 
 
-class AgentType(models.Model):
-
-    name = models.CharField(max_length=254, blank=True)
-
-    commission = models.CharField(max_length=254, blank=True)
-
-    def __unicode__(self):
-        return self.name
-
-
-class Agent(models.Model):
+class AgentsProfile(models.Model):
 
     """
-    User model
+
+    Agents model
+
     """
 
     # Personal Details
+
+    agent = models.ForeignKey(User, related_name="agent_profile", null=True)
 
     first_name = models.CharField(max_length=254, blank=True)
 
@@ -36,6 +34,10 @@ class Agent(models.Model):
     age = models.CharField(max_length=254, blank=True)
 
     marriage_anniversary = models.CharField(max_length=254, blank=True)
+
+    agriculture_status = models.CharField(max_length=254, blank=True)
+
+    purpose_of_buying = models.TextField(max_length=254, blank=True)
 
     # Contact Details
 
@@ -53,29 +55,9 @@ class Agent(models.Model):
 
     photo = models.ImageField(upload_to='customers', null=True)
 
-    # Nominee Details
+    created_at = models.DateTimeField(default=timezone.now)
 
-    nominee_name = models.CharField(max_length=254, blank=True)
-
-    nominee_address = models.TextField(max_length=254, blank=True)
-
-    nominee_email = models.CharField(max_length=254, blank=True)
-
-    nominee_mobile = models.CharField(max_length=254, blank=True)
-
-    nominee_alternate_mobile = models.CharField(max_length=254, blank=True)
-
-    nominee_photo = models.ImageField(upload_to='nominee', null=True)
-
-    nominee_dob = models.CharField(max_length=254, blank=True)
-
-    nominee_age = models.CharField(max_length=254, blank=True)
-
-    nominee_occupation = models.CharField(max_length=254, blank=True)
-
-    relation = models.CharField(max_length=254, blank=True)
-
-    agent_type = models.ForeignKey(AgentType, related_name="agent_type")
+    updated_at = AutoDateTimeField(default=timezone.now)
 
     def full_name(self):
         return "{0} {1} {2}".format(self.first_name, self.middle_name, self.last_name)

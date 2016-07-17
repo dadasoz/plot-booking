@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'booking_api',
     'customer_api',
     'accounts_api',
+    'agents_api',
+    'feedback_api',
 ]
 
 MIDDLEWARE_CLASSES = [
