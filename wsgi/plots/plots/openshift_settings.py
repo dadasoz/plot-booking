@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'accounts_api',
     'agents_api',
     'feedback_api',
+    'admin_api',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^reports/$', views.reports_view, name="reports"),
 
     url(r'^agents/$', views.agents_view, name="agents"),
+
+    url(r'^admin/settings/$', views.admin_settings_view, name="admin_settings_view"),
 ]

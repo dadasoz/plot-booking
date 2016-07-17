@@ -1,0 +1,89 @@
+{% extends "frontend_base.html" %}
+{% load staticfiles %}
+
+{% block title %}Bookings{% endblock %}
+
+{% block page_css %}
+    <!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
+    <link href="{% static "assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css"%}" rel="stylesheet" />
+    <link href="{% static "assets/plugins/gritter/css/jquery.gritter.css"%}" rel="stylesheet" />
+
+    <link href="{% static "assets/plugins/DataTables/css/data-table.css"%}" rel="stylesheet" />
+    <!-- ================== END PAGE LEVEL STYLE ================== -->
+
+{% endblock %}
+
+{% block sidebar %}
+  {% include "common/sidebar.html" with menu="administration"  submenu="settings" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <li><a href="javascript:;">Home</a></li>
+    <li><a href="javascript:;">Administration</a></li>
+    <li class="active">Settings</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">Settings</h1>
+<!-- end page-header -->
+{% endblock %}
+
+{% block contents %}
+    <!-- begin row -->
+    <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-pills">
+            <li class="active"><a aria-expanded="true" href="#nav-pills-tab-1" data-toggle="tab">Company Info</a></li>
+            <li class=""><a aria-expanded="false" href="#nav-pills-tab-2" data-toggle="tab">Settings</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade active in" id="nav-pills-tab-1">
+                <h3 class="m-t-10">Nav Pills Tab 1</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor, 
+                est diam sagittis orci, a ornare nisi quam elementum tortor. 
+                Proin interdum ante porta est convallis dapibus dictum in nibh. 
+                Aenean quis massa congue metus mollis fermentum eget et tellus. 
+                Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, 
+                nec eleifend orci eros id lectus.
+              </p>
+            </div>
+            <div class="tab-pane fade" id="nav-pills-tab-2">
+                <h3 class="m-t-10">Nav Pills Tab 2</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor, 
+                est diam sagittis orci, a ornare nisi quam elementum tortor. 
+                Proin interdum ante porta est convallis dapibus dictum in nibh. 
+                Aenean quis massa congue metus mollis fermentum eget et tellus. 
+                Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, 
+                nec eleifend orci eros id lectus.
+              </p>
+            </div>
+          </div>
+        </div>
+    </div>
+    <!-- end row -->
+{% endblock %}
+
+
+{% block page_js %}
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="{% static "assets/plugins/gritter/js/jquery.gritter.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/jquery.dataTables.min-new.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/dataTables.buttons.min-new.js"%}"></script>
+    <script src="{% static "assets/plugins/DataTables/js/buttons.print.min.js"%}"></script>
+
+    <script src="{% static "assets/js/apps.js"%}"></script>
+    <script src="{% static "assets/js/administration/settings.js"%}"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+    
+    <script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+{% endblock %}

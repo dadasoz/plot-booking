@@ -49,12 +49,10 @@
                 </ul>
 
             </li>
-
-            {% if requets.user.user_type == "admin" %}
+            {% if request.user.user_category|stringformat:"i" == "admin"|stringformat:"i" %}
 
             <li class="has-sub {% if menu == "administration" %}active{% endif%}"><a href="javascript:void(0);"><i class="fa fa-cogs"></i> <span>Administration</span><b class="caret pull-right"></b></a>
                 <ul class="sub-menu">
-                    <li {% if submenu == "dashboard" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/admin/dashbaord"><span>Dashboard</span></a>
                     <li {% if submenu == "settings" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/admin/settings/"><span>Settings</span></a>
                 </ul>
             </li>
