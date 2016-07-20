@@ -10,6 +10,28 @@ $(document).ready(function() {
             $(".payments-div").hide();
         }
     });
+
+    $(document).on('click', '#convert-booking', function() {
+        id = $("#booking_id").val();
+        $("#convert-confirm").modal("show");
+    });
+
+    $(document).on('click', '#convert-record', function() {
+        id = $("#booking_id").val();
+        form_data = {
+            'booking_converted': true,
+            'pk': id,
+        };
+        $.patch("/api/booking/convert/"+id+"/", form_data, function(data, status) {
+            if (status === "success") {
+                window.location = "/frontend/accounts/sales/edit/"+data.sales_id+"/";
+            } else {
+                console.log("Error");
+            }
+        })
+    });
+
+
 });
 
 function getBookingDetails(){

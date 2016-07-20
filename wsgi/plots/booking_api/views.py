@@ -66,8 +66,28 @@ class BookingUpdate(generics.UpdateAPIView):
 
     def patch(self, request, pk, format=None):
         booking = self.get_object(pk)
-        serializer = serializers.BookingUpdateSerializer(booking, data=request.data)
+        serializer = serializers.BookingUpdateSerializer(
+            booking, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ConvertBooking(generics.UpdateAPIView):
+    serializer_class = serializers.BookingConvertSerializer
+
+    def get_object(self, pk):
+        try:
+            return Booking.objects.get(pk=pk)
+        except Booking.DoesNotExist:
+            raise Http404
+
+    def patch(self, request, pk, format=None):
+        booking = self.get_object(pk)
+        serializer = serializers.BookingConvertSerializer(
+            booking, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'sales_id': booking.sale_booking.values().get().get('id')})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

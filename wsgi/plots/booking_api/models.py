@@ -33,3 +33,5 @@ class Booking(models.Model):
     down_payment_method = models.CharField(max_length=254, blank=True)
 
     down_payment_txn_no = models.CharField(max_length=254, blank=True)
+
+    booking_converted = models.BooleanField(default=False)

@@ -33,6 +33,9 @@
 {% block contents %}
     <input type="hidden" name="booking_id" value="{{pk}}" id="booking_id">
     <!-- begin row -->
+    <div class="col-md-12 col-sm-12 p-10">
+      <button type="button" class="btn btn-success btn-sm m-r-5 pull-right" id="convert-booking"><i class="fa fa-share"></i>Convert To Sale</button>
+    </div>
     <div class="profile-container">
             <!-- begin profile-section -->
             <div class="profile-section">
@@ -383,6 +386,28 @@
         </div>
   </div>
 
+  <!-- #modal-alert -->
+  <div class="modal fade" id="convert-confirm">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title">Confirmtion</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="alert alert-danger m-b-0">
+                      <h4><i class="fa fa-info-circle"></i> Do you really want to convert?</h4>
+                      <p>The record will permanantly convert from booking to sales!</p>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+                  <a href="javascript:;" class="btn btn-sm btn-danger" id="convert-record" sata-pk="">Convert</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- #modal-alert -->
 
 {% endblock %}
 
