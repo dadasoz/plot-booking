@@ -11,6 +11,11 @@
     width: 100%;
 }
 
+.table-table{
+    display: table;
+    width: 100%;
+}
+
 .divider{
     border-top: 1px solid #e2e7eb;
 }

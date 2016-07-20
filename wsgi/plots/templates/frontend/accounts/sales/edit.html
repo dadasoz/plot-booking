@@ -332,7 +332,7 @@
                   </div>
                   <div class="col-md-4"></div>
                   <div class="col-md-4 p-10">
-                    <a href="javascript:;" id="calculate-emi">
+                    <a href="javascript:;" id="calculate-emi" style="display:none;">
                       <button type="button" class="btn btn-xs m-r-5 btn-inverse">Calculate EMI</button>
                     </a>
                   </div>
@@ -340,7 +340,8 @@
             </div>
             <!-- End col md 6 -->
             <div class="col-md-12">
-              <button type="button" class="btn btn-inverse m-r-5 m-b-5 pull-right" id="update-button">Update</button>
+              <button type="button" class="btn btn-inverse m-r-5 m-b-5 pull-right" id="change-button">Change</button>
+              <button type="button" class="btn btn-inverse m-r-5 m-b-5 pull-right"  style="display:none;" id="update-button">Update</button>
             </div>
           </div>
           <!-- End col md 12 -->
@@ -381,10 +382,70 @@
                 </tbody>
               </table>
           </div>
-          </div>
         </div>
+      </div>
   </div>
 
+  <!-- end panel -->
+  <div class="modal" id="emi-dialog">
+      <div class="modal-dialog" style="width: 85%;">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title add-label">Add EMI</h4>
+            </div>
+            <div class="modal-body table-table">
+              <form class="form-horizontal" id="emi-form">
+                <input id="emi-pk" name="pk" type="hidden" value="">
+                <!-- Text input-->
+                <div class="col-md-12">
+                  <div class="col-md-6">
+
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="emi_amount">Amount</label>  
+                      <div class="col-md-8">
+                      <input id="emi_amount" disabled="disabled" name="emi_amount" placeholder="Amount" class="form-control input-md" required="" type="text">
+                      </div>
+                    </div>
+
+                    <!-- Textarea -->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="emi_date">Date</label>
+                      <div class="col-md-8">                     
+                        <textarea class="form-control" id="emi_date" name="emi_date" placeholder="Emi Date"></textarea>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+                    <!-- Text input-->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="taluka">Payment Method</label>  
+                      <div class="col-md-8">
+                      <input id="taluka" name="taluka" placeholder="Taluka" class="form-control input-md" type="text">
+                      </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                      <label class="col-md-4 control-label" for="district">District</label>  
+                      <div class="col-md-8">
+                      <input id="district" name="district" placeholder="District" class="form-control input-md" type="text">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-sm btn-success" id="save-emi" data-pk="">Save</a>
+                <a href="javascript:;" class="btn btn-sm btn-white" data-dismiss="modal">Close</a>
+            </div>
+          </div>
+      </div>
+  </div>
+  <!-- #modal-message -->
 
 {% endblock %}
 

@@ -58,7 +58,7 @@ class CreateEMI(generics.CreateAPIView):
 
 
 class ListSales(generics.ListAPIView):
-    queryset = Sale.objects.all()
+    queryset = Sale.objects.filter(booking__booking_converted=True)
     serializer_class = serializers.ListSalesSerializer
 
     def list(self, request):
@@ -156,7 +156,7 @@ class UpdateSales(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update_transactions(self, sale):
-        SaleTransaction.objects.filter(sale=sale).delete()
+        SaleTransaction.objects.filter(sale=sale, status=False).delete()
         booking = sale.booking
         status = False
         if int(booking.booking_amount):
@@ -188,7 +188,7 @@ class UpdateEMI(generics.UpdateAPIView):
         serializer = serializers.EMIUpdateSerializer(emi, data=request.data)
         if serializer.is_valid():
             emi = serializer.save()
-            EMI_schedule.objects.filter(emi=emi).delete()
+            EMI_schedule.objects.filter(emi=emi, paid_status=False).delete()
             self.updateEMI(emi)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

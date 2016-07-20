@@ -11,6 +11,7 @@ $(document).ready(function() {
             $(".payments-div").hide();
         }
     });
+    disableAll();
 });
 function getSalesDetails(){
     sales_id = $("#sales_id").attr("data-pk");
@@ -64,13 +65,12 @@ function getSalesDetails(){
         $("#booking_amount_method").val(booking.booking_amount_method).change();
         $("#booking_date").val(booking.booking_date);
         $("#booking_txn_no").val(booking.booking_txn_no);
-        $("#down_payment").val(booking.down_payment);
+        $("#down_payment").val(parseInt(booking.down_payment));
         $("#down_payment_method").val(booking.down_payment_method).change();
         $("#down_payment_date").val(booking.down_payment_date);
         $("#down_payment_txn_no").val(booking.down_payment_txn_no);
         $("#loan_amount").val(data.loan_amount);
         $("#loan_amount_changed").val(data.loan_amount);
-
 
         if(data.is_emi_enabled){
             $(".emi-div").show();
@@ -97,8 +97,12 @@ function getSalesDetails(){
 
                 for(var i=0; i<emi_installments.length; i++){
                     em = emi_installments[i]
-                    emi_status = getTrueFalse(em.paid_status)
-                    table.row.add([(i+1), em.emi_schedule_date, parseFloat(em.amount).toFixed(2), emi_status]).draw(true);
+                    emi_status = getTrueFalse(em.paid_status);
+                    emi_amount = parseFloat(em.amount).toFixed(2);
+                    if(em.paid_status==false){
+                        emi_status += '<button type="button" class="btn btn-xs m-r-5 btn-inverse pay-btn m-l-10" data-pk="'+em.pk+'" data-amount="'+emi_amount+'">Pay</button>';
+                    }
+                    table.row.add([(i+1), em.emi_schedule_date, emi_amount, emi_status]).draw(true);
                 }
             }
 
@@ -107,6 +111,60 @@ function getSalesDetails(){
 
     });
 }
+
+$(document).on('click', '.pay-btn', function() {
+    pk = $(this).attr("data-pk");
+    var cfm = confirm("Do you want to pay emi!");
+    if (cfm == true) {
+        $("#emi-dialog").modal("show");
+    }
+});
+
+
+
+function disableAll(){
+    $("#emi").attr("disabled","disbaled");
+    $("#down_payment").attr("disabled","disbaled");
+    $("#down_payment_method").attr("disabled","disbaled");
+    $("#down_payment_txn_no").attr("disabled","disbaled");
+    $("#down_payment_date").attr("disabled","disbaled");
+    $("#booking_amount").attr("disabled","disbaled");
+    $("#booking_amount_method").attr("disabled","disbaled");
+    $("#booking_date").attr("disabled","disbaled");
+    $("#booking_txn_no").attr("disabled","disbaled");
+    $("#emi_terms").attr("disabled","disbaled");
+    $("#emi_day").attr("disabled","disbaled");
+    $("#emi_intrest").attr("disabled","disbaled");
+    $("#loan_amount").attr("disabled","disbaled");
+    $("#update-button").hide();
+    $("#change-button").show();
+    $("#calculate-emi").hide();
+}
+
+
+function enableAll(){
+    $("#emi").attr("disabled",false);
+    $("#down_payment").attr("disabled",false);
+    $("#down_payment_method").attr("disabled",false);
+    $("#down_payment_txn_no").attr("disabled",false);
+    $("#down_payment_date").attr("disabled",false);
+    $("#booking_amount").attr("disabled",false);
+    $("#booking_amount_method").attr("disabled",false);
+    $("#booking_date").attr("disabled",false);
+    $("#booking_txn_no").attr("disabled",false);
+    $("#emi_terms").attr("disabled",false);
+    $("#emi_day").attr("disabled",false);
+    $("#emi_intrest").attr("disabled",false);
+    $("#loan_amount").attr("disabled",false);
+    $("#update-button").show();
+    $("#calculate-emi").show();
+    $("#change-button").hide();
+}
+
+$(document).on('click', '#change-button', function() {
+    enableAll();
+});
+
 
 function printTransactions(transactions){
     destroyTable("#transaction-table");
@@ -258,7 +316,8 @@ function printEMI(emi, duration, emi_day){
     for(var i=1; i<=duration; i++){
         date.setDate(emi_day);
         date.setMonth(date.getMonth() + 1);
-        table.row.add([i, date.toLocaleFormat('%d-%b-%Y'), emi.toFixed(2)]).draw(true);
+        status = getTrueFalse(false);
+        table.row.add([i, date.toLocaleFormat('%d-%b-%Y'), emi.toFixed(2),status]).draw(true);
     }
 }
 

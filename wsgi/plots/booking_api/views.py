@@ -7,7 +7,7 @@ from django.http import Http404
 
 
 class BookingList(generics.ListAPIView):
-    queryset = Booking.objects.all()
+    queryset = Booking.objects.filter(booking_converted=False)
     serializer_class = serializers.BookingListSerializer
 
     def list(self, request):
