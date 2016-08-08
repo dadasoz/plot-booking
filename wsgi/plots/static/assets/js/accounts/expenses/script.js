@@ -1,8 +1,7 @@
 $(document).ready(function() {
     loadData();
-    loadAllProjects();
 
-    $(document).on('click', '.feedback-delete', function() {
+    $(document).on('click', '.exp-delete', function() {
         id = $(this).attr("data-pk");
         $("#delete-confirm").modal("show");
         $("#delete-record").attr("data-pk",id);
@@ -21,10 +20,10 @@ $(document).ready(function() {
     });
 
 
-    $(document).on('click', '.feedback-view', function() {
+    $(document).on('click', '.exp-view', function() {
         id = $(this).attr("data-pk");
         $("#feedback-details-modal").modal("show");
-        $.get("/api/feedback/" + id + "/", function(data, status) {
+        $.get("/api/accounts/expenses/" + id + "/", function(data, status) {
                 $("#lbl-name").text(data.name);
                 $("#lbl-email").text(data.email);
                 $("#lbl-mobile").text(data.mobile);
@@ -34,13 +33,13 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on('click', '#btn-add-feedback', function() {
-        $("#feedback-form")[0].reset();
-        $("#feedback-modal").modal("show");
+    $(document).on('click', '#btn-add-exp', function() {
+        $("#exp-form")[0].reset();
+        $("#exp-modal").modal("show");
     });
 
-    $(document).on('click', '#add-feedback', function() {
-        var form_data = $("#feedback-form").serializeArray().reduce(function(a, x) {
+    $(document).on('click', '#add-exp', function() {
+        var form_data = $("#exp-form").serializeArray().reduce(function(a, x) {
             a[x.name] = x.value;
             return a;
         }, {});
@@ -48,7 +47,7 @@ $(document).ready(function() {
         $.post("/api/feedback/create/", form_data, function(data, textStatus) {
             if (data.status == 201) {
                 loadData();
-                $("#feedback-modal").modal("hide");
+                $("#exp-modal").modal("hide");
             } else {
                 console.log("Error");
             }
@@ -58,7 +57,7 @@ $(document).ready(function() {
 });
 
 function loadData() {
-    $.get("/api/feedback/", function(data, status) {
+    $.get("/api/accounts/expenses/", function(data, status) {
             addData(data);
         },
         function(data, status, st) {
@@ -69,28 +68,15 @@ function loadData() {
 
 function addData(data) {
 
-    destroyTable("#feedback-data");
-    table = $('#feedback-data').DataTable({
+    destroyTable("#exp-data");
+    table = $('#exp-data').DataTable({
         responsive: true,
     });
     for (var count = 0; count < data.length; count++) {
-        feedback = data[count];
+        exp = data[count];
         buttons = '<div class="table-buttons">';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm feedback-view" data-pk="' + feedback.id + '"><i class="fa fa-eye"></i></a>';
-        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm feedback-delete" data-pk="' + feedback.id + '"><i class="fa fa-trash"></i></a></div>';
-        table.row.add([feedback.project, feedback.name, feedback.email, feedback.mobile, feedback.message, buttons]).draw(true);
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm exp-view" data-pk="' + exp.id + '"><i class="fa fa-eye"></i></a>';
+        buttons += '<a class="btn btn-info btn-icon btn-circle btn-sm exp-delete" data-pk="' + exp.id + '"><i class="fa fa-trash"></i></a></div>';
+        table.row.add([exp.project, exp.name, exp.email, exp.mobile, exp.message, buttons]).draw(true);
     }
-}
-
-function loadAllProjects() {
-    $.get("/api/projects/for-plots/", function(data, status) {
-            for (var count = 0; count < data.length; count++) {
-                project = data[count];
-                $("#project").append("<option value='"+project.pk+"'>"+project.project_name+"</option>");
-            }
-        },
-        function(data, status, st) {
-            console.log("error");
-        }
-    );
 }

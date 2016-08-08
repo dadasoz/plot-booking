@@ -33,7 +33,7 @@
                 <ul class="sub-menu">
                     <li {% if submenu == "dashboard" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/"><span>Dashboard</span></a>
                     <li {% if submenu == "sales" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/sales/"><span>Sales</span></a>
-                    <li {% if submenu == "expences" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/expences/"><span>Expences</span></a>
+                    <li {% if submenu == "expenses" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/accounts/expenses/"><span>Expenses</span></a>
                 </ul>
             </li>
             <li {% if menu == "agents" %}class="active"{% endif%}><a href="/{{request.user.user_category.slug}}/agents/"><i class="fa fa-users"></i> <span>Agents</span></a></li>

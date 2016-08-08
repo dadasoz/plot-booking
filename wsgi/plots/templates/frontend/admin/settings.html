@@ -5,12 +5,9 @@
 
 {% block page_css %}
     <!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
-    <link href="{% static "assets/plugins/bootstrap-calendar/css/bootstrap_calendar.css"%}" rel="stylesheet" />
     <link href="{% static "assets/plugins/gritter/css/jquery.gritter.css"%}" rel="stylesheet" />
-
     <link href="{% static "assets/plugins/DataTables/css/data-table.css"%}" rel="stylesheet" />
     <!-- ================== END PAGE LEVEL STYLE ================== -->
-
 {% endblock %}
 
 {% block sidebar %}
@@ -36,32 +33,148 @@
         <div class="col-md-12">
           <ul class="nav nav-pills">
             <li class="active"><a aria-expanded="true" href="#nav-pills-tab-1" data-toggle="tab">Company Info</a></li>
-            <li class=""><a aria-expanded="false" href="#nav-pills-tab-2" data-toggle="tab">Settings</a></li>
+            <li class=""><a aria-expanded="false" href="#nav-pills-tab-2" data-toggle="tab">Commission Settings</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane fade active in" id="nav-pills-tab-1">
-                <h3 class="m-t-10">Nav Pills Tab 1</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor, 
-                est diam sagittis orci, a ornare nisi quam elementum tortor. 
-                Proin interdum ante porta est convallis dapibus dictum in nibh. 
-                Aenean quis massa congue metus mollis fermentum eget et tellus. 
-                Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, 
-                nec eleifend orci eros id lectus.
-              </p>
+                <form class="form-horizontal" id="basic-form">
+                    <fieldset>
+                        <div class="col-md-12">
+                          <div class="col-md-6">
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="company_name">Company</label>  
+                              <div class="col-md-8">
+                              <input id="company_name" name="company_name" placeholder="Company" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="name">Slogan</label>  
+                              <div class="col-md-8">
+                              <input id="slogan" name="slogan" placeholder="Slogan" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="founded">Founded year</label>  
+                              <div class="col-md-8">
+                              <input id="founded" name="founded" placeholder="Founded year" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="email">Email</label>  
+                              <div class="col-md-8">
+                              <input id="email" name="email" placeholder="Email" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="phone">Phone</label>  
+                              <div class="col-md-8">
+                              <input id="phone" name="phone" placeholder="Phone" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="mobile">Mobile</label>  
+                              <div class="col-md-8">
+                              <input id="mobile" name="mobile" placeholder="Mobile" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+
+                          </div>
+                          <div class="col-md-6">
+                            
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="website">Website</label>  
+                              <div class="col-md-8">
+                              <input id="website" name="website" placeholder="Website" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="alternate_mobile">Alternate Mobile</label>  
+                              <div class="col-md-8">
+                              <input id="alternate_mobile" name="alternate_mobile" placeholder="Alternate Mobile" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="address1">Address</label>  
+                              <div class="col-md-8">
+                              <textarea id="address" name="address" placeholder="Address" class="form-control input-md" required="" type="text"></textarea>
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="pin_code">Pin Code</label>  
+                              <div class="col-md-8">
+                              <input id="pin_code" name="pin_code" placeholder="Pin Code" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="logo">Logo</label>  
+                              <div class="col-md-8">
+                              <input id="logo" name="logo" placeholder="Logo" class="form-control input-md" required="" type="file">
+                              </div>
+                            </div>
+                            
+                        </div>
+                      </div>
+                      <div class="col-md-12 text-center">
+                        <a href="javascript:;" class="btn btn-sm btn-success" id="save-besic-settings" data-pk="">Save</a>
+                      </div>
+                    </fieldset>
+                </form>
             </div>
             <div class="tab-pane fade" id="nav-pills-tab-2">
-                <h3 class="m-t-10">Nav Pills Tab 2</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Integer ac dui eu felis hendrerit lobortis. Phasellus elementum, nibh eget adipiscing porttitor, 
-                est diam sagittis orci, a ornare nisi quam elementum tortor. 
-                Proin interdum ante porta est convallis dapibus dictum in nibh. 
-                Aenean quis massa congue metus mollis fermentum eget et tellus. 
-                Aenean tincidunt, mauris ut dignissim lacinia, nisi urna consectetur sapien, 
-                nec eleifend orci eros id lectus.
-              </p>
+                <form class="form-horizontal" id="commission-form">
+                    <fieldset>
+                        <div class="col-md-12">
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="company">Company commission</label>  
+                              <div class="col-md-6">
+                              <input id="company" name="company" placeholder="company" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="employee">Employee</label>  
+                              <div class="col-md-6">
+                              <input id="employee" name="employee" placeholder="Employee" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="agent">Agent</label>  
+                              <div class="col-md-6">
+                              <input id="agent" name="agent" placeholder="Agent" class="form-control input-md" required="" type="text">
+                              </div>
+                            </div>
+                      </div>
+                      <div class="col-md-12 text-center">
+                        <a href="javascript:;" class="btn btn-sm btn-success" id="save-commssion-settings" data-pk="">Save</a>
+                      </div>
+                    </fieldset>
+                </form>
             </div>
           </div>
         </div>

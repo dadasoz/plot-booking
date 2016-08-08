@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^accounts/$', views.accounts_view, name="accounts"),
     url(r'^accounts/sales/$', views.accounts_sales_view, name="sales"),
     url(r'^accounts/sales/edit/(?P<pk>[0-9]+)/$', views.sales_edit, name="sales_edit"),
-    url(r'^accounts/expences/$', views.accounts_expences_view, name="expences"),
+    url(r'^accounts/expenses/$', views.accounts_expenses_view, name="expenses"),
 
     url(r'^users/$', views.users_view, name="users"),
     url(r'^feedback/$', views.feedback_view, name="feedback"),

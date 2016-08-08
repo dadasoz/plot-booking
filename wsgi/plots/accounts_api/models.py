@@ -6,6 +6,7 @@ from customer_api.models import Customer
 from booking_api.models import Booking
 from plots.lib.utils import AutoDateTimeField
 from django.utils import timezone
+from user_auth.models import User
 
 # Create your models here.
 
@@ -94,5 +95,31 @@ class SaleTransaction(models.Model):
 
     emi_txn = models.ForeignKey(
         EMI_schedule, related_name="sales_transaction_emi", null=True)
+
+    status = models.BooleanField(default=True)
+
+
+class ExpenseType(models.Model):
+
+    name = models.CharField(max_length=254, blank=True)
+
+    status = models.BooleanField(default=True)
+
+
+class Expenses(models.Model):
+
+    amount = models.CharField(max_length=254, blank=True)
+
+    expense_type = models.ForeignKey(
+        ExpenseType, related_name="expense_type", null=True)
+
+    user = models.ForeignKey(
+        User, related_name="user", null=True)
+
+    txn = models.CharField(max_length=254, blank=True)
+
+    created_at = models.DateField(default=timezone.now)
+
+    updated_at = AutoDateTimeField(default=timezone.now)
 
     status = models.BooleanField(default=True)

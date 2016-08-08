@@ -64,7 +64,7 @@ $(document).ready(function() {
         $.post("/api/agents/create/", form_data, function(data, textStatus) {
             if (data.status == 201) {
                 loadData();
-                $("#agents-modal").modal("hide");
+                $("#agent-modal").modal("hide");
             } else {
                 console.log("Error");
             }

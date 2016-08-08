@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^frontend/', include('frontend.urls', namespace="frontend")),
     url(r'^backend/', include('backend.urls', namespace="backend")),
+    url(r'^api/admin/', include('admin_api.urls', namespace="admin_api")),
     url(r'^api/projects/', include('projects_api.urls', namespace="projects_api")),
     url(r'^api/booking/', include('booking_api.urls', namespace="booking_api")),
     url(r'^api/customers/', include('customer_api.urls', namespace="customer_api")),

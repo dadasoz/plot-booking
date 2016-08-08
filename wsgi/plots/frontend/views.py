@@ -66,8 +66,8 @@ def sales_edit(request, pk):
 
 @login_required(login_url='/auth/login/')
 @validate_cookie
-def accounts_expences_view(request):
-    return render(request, "frontend/accounts/expences/index.html", {})
+def accounts_expenses_view(request):
+    return render(request, "frontend/accounts/expenses/index.html", {})
 
 
 @login_required(login_url='/auth/login/')

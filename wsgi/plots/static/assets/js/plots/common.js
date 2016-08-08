@@ -110,6 +110,7 @@ function getValById(id){
 $(document).ready(function(){
     $('.datepicker').datepicker({
         todayHighlight: true,
+        format: "yyyy-mm-dd",
     });
 });
 

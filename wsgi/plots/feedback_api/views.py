@@ -1,5 +1,5 @@
 from feedback_api.models import Feedback
-from feedback_api.serializers import FeedbackSerializer, FeedbackListSerializer
+from feedback_api.serializers import FeedbackSerializer, FeedbackListSerializer, FeedbackDetailsSerializer
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
@@ -40,7 +40,7 @@ class DestroyFeedback(generics.DestroyAPIView):
 
 
 class FeedbackDetail(generics.RetrieveAPIView):
-    serializer_class = FeedbackSerializer
+    serializer_class = FeedbackDetailsSerializer
 
     def get_object(self, pk):
         try:
@@ -50,7 +50,7 @@ class FeedbackDetail(generics.RetrieveAPIView):
 
     def get(self, request, pk, format=None):
         Feedback = self.get_object(pk)
-        serializer = FeedbackSerializer(Feedback)
+        serializer = FeedbackDetailsSerializer(Feedback)
         return Response(serializer.data)
 
 

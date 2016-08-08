@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from accounts_api.models import Sale, EMI, EMI_schedule, SaleTransaction
+from accounts_api.models import Sale, EMI, EMI_schedule, SaleTransaction, Expenses
 from booking_api.models import Booking
 from customer_api.serializers import CustomerDetailsSerializer, CustomerListSerializer
 from projects_api.serializers import PlotDetailsSerializer
 
 # Default serializers
+
 
 class SalesSerializer(serializers.ModelSerializer):
 
@@ -87,6 +88,7 @@ class DetailsTransactionSerializer(serializers.ModelSerializer):
         fields = ('pk', 'sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
                   'emi_txn', 'status', 'created_at', 'source')
 
+
 class DetailsEMISerializer(serializers.ModelSerializer):
 
     emi_data = ListEMI_scheduleSerializer(many=True, read_only=True)
@@ -150,3 +152,75 @@ class EMIUpdateSerializer(serializers.ModelSerializer):
         model = EMI
         fields = ('pk', 'total_amount', 'paid_amount', 'intrest_rate',
                   'paid_status', 'duration', 'emi_day')
+
+
+class PayEMISerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EMI
+        fields = ('pk', 'paid_status', )
+
+
+class ListTransactionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
+        fields = ('sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
+                  'emi_txn', 'status', 'created_at', 'source')
+
+
+class CreateTransactionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
+        fields = ('sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
+                  'emi_txn', 'status', 'created_at', 'source')
+
+
+class UpdateTransactionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
+        fields = ('pk', 'sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
+                  'emi_txn', 'status', 'created_at', 'source')
+
+
+class UpdateTransactionStatusSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
+        fields = ('pk', 'status')
+
+
+class DetailsTransactionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
+        fields = ('pk', 'sale', 'amount', 'trasaction_type', 'trasaction_type_no', 'is_emi',
+                  'emi_txn', 'status', 'created_at', 'source')
+
+
+
+# Expenses serializers
+
+class ListExpensesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Expenses
+
+class CreateExpensesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Expenses
+
+
+class UpdateExpensesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Expenses
+
+
+class DetailsExpensesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SaleTransaction
