@@ -1,20 +1,13 @@
-Django on OpenShift
+Plot Booking and Sales system using Django REST and jQuery
 ===================
 
-This git repository helps you get up and running quickly w/ a Django
-installation on OpenShift.  The Django project name used in this repo
-is 'myproject' but you can feel free to change it.  Right now the
-backend is sqlite3 and the database runtime is found in
-`$OPENSHIFT_DATA_DIR/db.sqlite3`.
+This git repository helps you get up and running quickly w/ a Plot bookig project
+installation on OpenShift.
 
 Before you push this app for the first time, you will need to change
 the [Django admin password](#admin-user-name-and-password).
-Then, when you first push this
-application to the cloud instance, the sqlite database is copied from
-`wsgi/myproject/db.sqlite3` with your newly changed login
-credentials. Other than the password change, this is the stock
-database that is created when `python manage.py syncdb` is run with
-only the admin app installed.
+Then, There is the stock database that is created when 
+`python manage.py syncdb` is run with only the admin app installed.
 
 On subsequent pushes, a `python manage.py syncdb` is executed to make
 sure that any models you added are created in the DB.  If you do
@@ -52,7 +45,7 @@ Select the version of python (2.7 or 3.3) and create a application
 Add this upstream repo
 
     cd django
-    git remote add upstream -m master git://github.com/openshift/django-example.git
+    git remote add upstream -m master git://github.com/dadasoz/plot-booking.git
     git pull -s recursive -X theirs upstream master
 
 Then push the repo upstream
@@ -70,7 +63,7 @@ Admin user name and password
 ----------------------------
 Use `rhc ssh` to log into python gear and run this command:
 
-	python $OPENSHIFT_REPO_DIR/wsgi/myproject/manage.py createsuperuser
+	python $OPENSHIFT_REPO_DIR/wsgi/plots/manage.py createsuperuser
 
 You should be now able to login at:
 
